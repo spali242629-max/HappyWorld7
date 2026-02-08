@@ -90,3 +90,57 @@ body {
     border: 3px solid white;
     margin-top: -25px;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HappyWorld - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">HappyWorld</div>
+        <div class="wallet-top">₹<span>0.58</span></div>
+    </header>
+
+    <div class="nav-tabs">
+        <div class="tab active">Popular</div>
+        <div class="tab">Lottery</div>
+        <div class="tab">Casino</div>
+        <div class="tab">Slots</div>
+    </div>
+
+    <div class="game-container">
+        <div class="game-card orange">
+            <span class="rtp-badge">RTP 97.2%</span>
+            <div class="game-icon">💰</div>
+            <div class="game-title">WinGo</div>
+        </div>
+        <div class="game-card blue">
+            <span class="rtp-badge">RTP 96.9%</span>
+            <div class="game-icon">✈️</div>
+            <div class="game-title">Aviator</div>
+        </div>
+        <div class="game-card purple">
+            <span class="rtp-badge">RTP 97.6%</span>
+            <div class="game-icon">💣</div>
+            <div class="game-title">Mines</div>
+        </div>
+        <div class="game-card navy">
+            <span class="rtp-badge">RTP 96.5%</span>
+            <div class="game-icon">🎲</div>
+            <div class="game-title">K3 Lottery</div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item active">🏠<br>Home</a>
+        <a href="#" class="nav-item">🏆<br>Activity</a>
+        <div class="wheel-container"><div class="spin-wheel">GO</div></div>
+        <a href="#" class="nav-item">📢<br>Promotion</a>
+        <a href="index.html" class="nav-item">👤<br>Account</a>
+    </nav>
+</body>
+</html>
+
