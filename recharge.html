@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HappyWorld - Deposit</title>
+    <style>
+        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 20px; }
+        .balance-card { background: #161d3a; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px solid #3a467d; }
+        .amount-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .amt-btn { background: #1c244a; border: 1px solid #3a467d; color: white; padding: 10px; border-radius: 8px; cursor: pointer; }
+        .deposit-btn { background: #ff9800; color: white; width: 100%; padding: 15px; border: none; border-radius: 30px; font-weight: bold; margin-top: 30px; font-size: 16px; }
+        .header { display: flex; align-items: center; margin-bottom: 20px; }
+        input { width: 90%; background: #1c244a; border: 1px solid #3a467d; color: white; padding: 15px; border-radius: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" style="color:white; text-decoration:none; margin-right:20px;">⬅️</a>
+        <h3>Deposit</h3>
+    </div>
+
+    <div class="balance-card">
+        <div style="color: #aaa;">Balance</div>
+        <div style="font-size: 24px; font-weight: bold;">₹0.58</div>
+    </div>
+
+    <div style="text-align: left;">
+        <label>Enter Amount</label><br>
+        <input type="number" placeholder="Enter amount" id="depositAmt">
+    </div>
+
+    <div class="amount-grid">
+        <button class="amt-btn" onclick="setAmt(500)">₹500</button>
+        <button class="amt-btn" onclick="setAmt(1000)">₹1000</button>
+        <button class="amt-btn" onclick="setAmt(5000)">₹5000</button>
+    </div>
+
+    <button class="deposit-btn" onclick="payNow()">Recharge Now</button>
+
+    <script>
+        function setAmt(a) { document.getElementById('depositAmt').value = a; }
+        function payNow() { 
+            let amt = document.getElementById('depositAmt').value;
+            alert("Redirecting to Gateway for ₹" + amt);
+        }
+    </script>
+</body>
+</html>
