@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HappyWorld - WinGo</title>
+    <style>
+        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; text-align: center; }
+        .header { background: #161d3a; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .timer-box { background: linear-gradient(180deg, #252e5c 0%, #161d3a 100%); margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid #3a467d; }
+        .time { font-size: 35px; font-weight: bold; color: #ffeb3b; margin: 10px 0; letter-spacing: 2px; }
+        .game-buttons { display: flex; justify-content: space-around; padding: 20px; gap: 10px; }
+        .btn { padding: 15px; border-radius: 8px; border: none; font-weight: bold; color: white; width: 30%; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .green { background: #4caf50; }
+        .violet { background: #9c27b0; }
+        .red { background: #f44336; }
+        .history { margin-top: 20px; padding: 10px; margin-bottom: 80px; }
+        .history-table { width: 100%; border-collapse: collapse; background: #161d3a; border-radius: 10px; overflow: hidden; }
+        .history-table th, td { padding: 12px; border-bottom: 1px solid #2a345e; font-size: 13px; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; border-top: 1px solid #333; }
+        .bottom-nav a { color: #888; text-decoration: none; font-size: 11px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="home.html" style="color:white; text-decoration:none;">⬅️ Back</a>
+        <span style="font-weight:bold;">WinGo 1Min</span>
+        <span>₹0.58</span>
+    </div>
+
+    <div class="timer-box">
+        <div style="color: #aaa; font-size: 12px;">Period: 20260209123</div>
+        <div class="time" id="timer">01:00</div>
+        <div style="font-size: 12px;">Time remaining</div>
+    </div>
+
+    <div class="game-buttons">
+        <button class="btn green" onclick="bet('Green')">Green</button>
+        <button class="btn violet" onclick="bet('Violet')">Violet</button>
+        <button class="btn red" onclick="bet('Red')">Red</button>
+    </div>
+
+    <div class="history">
+        <h3 style="text-align:left; padding-left:10px;">Game History</h3>
+        <table class="history-table">
+            <thead>
+                <tr style="background:#1c244a;"><th>Period</th><th>Num</th><th>Size</th><th>Color</th></tr>
+            </thead>
+            <tbody id="history-body">
+                <tr><td>122</td><td>5</td><td>Big</td><td style="color:#4caf50;">Green</td></tr>
+                <tr><td>121</td><td>2</td><td>Small</td><td style="color:#f44336;">Red</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="home.html">🏠<br>Home</a>
+        <a href="#">🏆<br>Activity</a>
+        <a href="index.html">👤<br>Account</a>
+    </nav>
+
+    <script>
+        let seconds = 60;
+        setInterval(() => {
+            seconds--;
+            if(seconds < 0) seconds = 60;
+            let displaySec = seconds < 10 ? '0'+seconds : seconds;
+            document.getElementById('timer').innerHTML = "00:" + displaySec;
+        }, 1000);
+
+        function bet(color) {
+            alert("Aapne " + color + " par bet lagayi! System connect ho raha hai...");
+        }
+    </script>
+</body>
+</html>
