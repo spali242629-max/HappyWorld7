@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotion - HappyWorld</title>
+    <style>
+        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 0; }
+        .header { background: #161d3a; padding: 15px; text-align: center; font-weight: bold; }
+        .bonus-box { background: linear-gradient(135deg, #1e264a, #2a345e); margin: 15px; padding: 25px; border-radius: 15px; text-align: center; border: 1px solid #3a467d; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px; }
+        .stat-card { background: #161d3a; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333; }
+        .copy-btn { background: #ff9800; color: white; width: 90%; padding: 15px; border: none; border-radius: 30px; font-weight: bold; margin: 20px auto; display: block; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; }
+        .bottom-nav a { color: #888; text-decoration: none; font-size: 11px; text-align: center; }
+        .bottom-nav a.active { color: #ffeb3b; }
+    </style>
+</head>
+<body>
+    <div class="header">Promotion</div>
+
+    <div class="bonus-box">
+        <div style="font-size: 14px; color: #aaa;">Yesterday's Total Commission</div>
+        <div style="font-size: 32px; font-weight: bold; color: #ffeb3b; margin: 10px 0;">₹0.00</div>
+        <div style="font-size: 12px; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 20px; display: inline-block;">Upgrade to next level to earn more</div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div style="color: #888; font-size: 12px;">Direct Subordinates</div>
+            <div style="font-size: 20px; font-weight: bold; margin-top: 5px;">0</div>
+        </div>
+        <div class="stat-card">
+            <div style="color: #888; font-size: 12px;">Total Subordinates</div>
+            <div style="font-size: 20px; font-weight: bold; margin-top: 5px;">0</div>
+        </div>
+    </div>
+
+    <button class="copy-btn" onclick="copyLink()">Copy Invitation Link</button>
+
+    <div style="padding: 20px; font-size: 14px; color: #aaa;">
+        <h4 style="color: white; margin-bottom: 10px;">Promotion Content</h4>
+        <p>1. Invite friends to register and get high commissions.</p>
+        <p>2. The commission is calculated every day at 00:00.</p>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="home.html">🏠<br>Home</a>
+        <a href="activity.html">🏆<br>Activity</a>
+        <div class="go-btn-container"><div style="background:#ff9800; border-radius:50%; width:50px; height:50px; display:flex; align-items:center; justify-content:center; color:white; border:4px solid #0d122b; margin-top:-25px;">GO</div></div>
+        <a href="promotion.html" class="active">📢<br>Promotion</a>
+        <a href="index.html">👤<br>Account</a>
+    </nav>
+
+    <script>
+        function copyLink() {
+            alert("Link Copied: https://happyworld.onrender.com/register?ref=12345");
+        }
+    </script>
+</body>
+</html>
 
