@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HappyWorld - Gaming Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="logo">HappyWorld</div>
+            <div class="wallet-top">₹<span id="top-balance">0.58</span></div>
+        </header>
+
+        <main class="account-section">
+            <div class="profile-card">
+                <div class="avatar">👤</div>
+                <div class="user-info">
+                    <h3>MEMBER_HW2026 <span class="badge">VIP1</span></h3>
+                    <p>UID: 7433297 | <span class="copy-btn">📋</span></p>
+                </div>
+            </div>
+
+            <div class="balance-card">
+                <p>Total balance</p>
+                <h1>₹<span id="main-balance">0.58</span> <span class="refresh">🔄</span></h1>
+                <div class="action-buttons">
+                    <div class="btn">💳<br>Wallet</div>
+                    <div class="btn deposit-btn">💰<br>Deposit</div>
+                    <div class="btn withdraw-btn">📤<br>Withdraw</div>
+                    <div class="btn">💎<br>VIP</div>
+                </div>
+            </div>
+
+            <div class="safe-box">
+                <div class="safe-info">
+                    <strong>Safe</strong> <span class="gold-text">₹0.00 ></span>
+                    <p>Daily interest rate 0.1%, calculated every 1 minute.</p>
+                </div>
+            </div>
+
+            <div class="history-grid">
+                <div class="grid-item">📝 Game History</div>
+                <div class="grid-item">📊 Transaction</div>
+                <div class="grid-item">📥 Deposit History</div>
+                <div class="grid-item">📤 Withdraw History</div>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <div class="nav-item">🏠<br>Home</div>
+            <div class="nav-item">🏆<br>Activity</div>
+            <div class="wheel-container">
+                <div class="spin-wheel">GO</div>
+            </div>
+            <div class="nav-item">📢<br>Promotion</div>
+            <div class="nav-item active">👤<br>Account</div>
+        </nav>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
