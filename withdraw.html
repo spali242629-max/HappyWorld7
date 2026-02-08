@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw - HappyWorld</title>
+    <style>
+        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 20px; }
+        .header { display: flex; align-items: center; margin-bottom: 25px; }
+        .balance-card { background: #161d3a; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #3a467d; margin-bottom: 20px; }
+        .input-box { background: #1c244a; padding: 15px; border-radius: 10px; border: 1px solid #3a467d; margin-top: 10px; }
+        input { background: none; border: none; color: white; width: 100%; font-size: 16px; outline: none; }
+        .withdraw-btn { background: #2196f3; color: white; width: 100%; padding: 15px; border: none; border-radius: 30px; font-weight: bold; margin-top: 30px; font-size: 16px; }
+        .info-text { color: #888; font-size: 12px; margin-top: 15px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" style="color:white; text-decoration:none; font-size: 20px;">⬅️ Withdraw</a>
+    </div>
+
+    <div class="balance-card">
+        <div style="color: #aaa;">Withdrawable Balance</div>
+        <div style="font-size: 26px; font-weight: bold;">₹0.58</div>
+    </div>
+
+    <div style="text-align: left;">
+        <label>Withdrawal Amount</label>
+        <div class="input-box"><input type="number" placeholder="Min ₹110"></div>
+        
+        <label style="display:block; margin-top:20px;">Bank Card / UPI</label>
+        <div class="input-box"><input type="text" placeholder="Add bank account number"></div>
+    </div>
+
+    <button class="withdraw-btn" onclick="alert('Withdrawal request submitted!')">Withdraw Now</button>
+
+    <div class="info-text">
+        * Minimum withdrawal: ₹110 <br>
+        * Withdrawal time: 24/7 <br>
+        * Processing time: 10 min - 1 hour
+    </div>
+</body>
+</html>
