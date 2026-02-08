@@ -4,50 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HappyWorld - Home</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background-color: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 0; }
+        .header { display: flex; justify-content: space-between; padding: 15px; background: #161d3a; font-weight: bold; }
+        .nav-tabs { display: flex; justify-content: space-around; padding: 12px; background: #1c244a; font-size: 14px; border-bottom: 1px solid #2a345e; }
+        .game-container { display: flex; flex-direction: column; gap: 15px; padding: 20px; margin-bottom: 80px; }
+        .game-card { 
+            background: linear-gradient(135deg, #1e264a, #2a345e); 
+            border-radius: 20px; 
+            padding: 25px; 
+            text-align: center; 
+            border: 1px solid #3a467d;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .rtp { color: #aaa; font-size: 12px; margin-bottom: 5px; }
+        .icon { font-size: 35px; margin-bottom: 10px; }
+        .game-title { font-size: 18px; font-weight: bold; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; align-items: center; }
+        .bottom-nav a { color: #888; text-decoration: none; font-size: 11px; text-align: center; flex: 1; }
+        .bottom-nav a.active { color: #ffeb3b; }
+        .go-btn-container { position: relative; bottom: 20px; }
+        .go-btn { background: #ff9800; border-radius: 50%; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 4px solid #0d122b; box-shadow: 0 0 10px rgba(255,152,0,0.5); }
+    </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">HappyWorld</div>
-        <div class="wallet-top">₹<span>0.58</span></div>
-    </header>
+    <div class="header">
+        <span>HappyWorld</span>
+        <span>₹0.58</span>
+    </div>
 
     <div class="nav-tabs">
-        <div class="tab active">Popular</div>
-        <div class="tab">Lottery</div>
-        <div class="tab">Casino</div>
-        <div class="tab">Slots</div>
+        <div style="color: #ffeb3b;">Popular</div>
+        <div>Lottery</div>
+        <div>Casino</div>
+        <div>Slots</div>
     </div>
 
     <div class="game-container">
-        <div class="game-card orange">
-            <span class="rtp-badge">RTP 97.2%</span>
-            <div class="game-icon">💰</div>
+        <div class="game-card">
+            <div class="rtp">RTP 97.2%</div>
+            <div class="icon">💰</div>
             <div class="game-title">WinGo</div>
         </div>
-        <div class="game-card blue">
-            <span class="rtp-badge">RTP 96.9%</span>
-            <div class="game-icon">✈️</div>
+        <div class="game-card">
+            <div class="rtp">RTP 96.9%</div>
+            <div class="icon">✈️</div>
             <div class="game-title">Aviator</div>
         </div>
-        <div class="game-card purple">
-            <span class="rtp-badge">RTP 97.6%</span>
-            <div class="game-icon">💣</div>
+        <div class="game-card">
+            <div class="rtp">RTP 97.6%</div>
+            <div class="icon">💣</div>
             <div class="game-title">Mines</div>
-        </div>
-        <div class="game-card navy">
-            <span class="rtp-badge">RTP 96.5%</span>
-            <div class="game-icon">🎲</div>
-            <div class="game-title">K3 Lottery</div>
         </div>
     </div>
 
     <nav class="bottom-nav">
-        <a href="home.html" class="nav-item active">🏠<br>Home</a>
-        <a href="#" class="nav-item">🏆<br>Activity</a>
-        <div class="wheel-container"><div class="spin-wheel">GO</div></div>
-        <a href="#" class="nav-item">📢<br>Promotion</a>
-        <a href="index.html" class="nav-item">👤<br>Account</a>
+        <a href="home.html" class="active">🏠<br>Home</a>
+        <a href="#">🏆<br>Activity</a>
+        <div class="go-btn-container"><div class="go-btn">GO</div></div>
+        <a href="#">📢<br>Promotion</a>
+        <a href="index.html">👤<br>Account</a>
     </nav>
 </body>
 </html>
