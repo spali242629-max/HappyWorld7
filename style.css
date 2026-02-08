@@ -143,4 +143,24 @@ body {
     </nav>
 </body>
 </html>
+/* Games Grid ka asli design */
+.game-container { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px; 
+    padding: 15px; 
+}
+.game-card { 
+    border-radius: 15px; 
+    padding: 20px; 
+    text-align: center; 
+    color: white; 
+    background: #1e264a; /* Card ka rang */
+}
+.nav-tabs { 
+    display: flex; 
+    justify-content: space-around; 
+    padding: 10px; 
+    background: #161d3a; 
+}
 
