@@ -1,23 +1,48 @@
-function registerUser() {
-    let phone = document.getElementById('phone').value;
-    let pass = document.getElementById('pass').value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - HappyWorld</title>
+    <style>
+        body { background: #0d122b; color: white; font-family: sans-serif; text-align: center; padding: 50px 20px; }
+        .box { background: #161d3a; padding: 20px; border-radius: 15px; border: 1px solid #3a467d; }
+        input { width: 90%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; background: #0d122b; color: white; outline: none; }
+        .btn { background: #ff9800; color: white; width: 100%; padding: 15px; border-radius: 30px; border: none; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
 
-    if(phone.length < 10 || pass.length < 4) {
-        alert("Sahi details daalo bhai!");
-        return;
-    }
+    <h2>Create Account</h2>
+    <div class="box">
+        <input type="number" id="phone" placeholder="Mobile Number">
+        <input type="password" id="pass" placeholder="Password">
+        <button class="btn" onclick="registerUser()">Register</button>
+    </div>
 
-    // User ka data ek "dibbe" (Object) mein rakhein
-    let userData = {
-        mobile: phone,
-        password: pass,
-        balance: 500.00 // Naye user ko 500 ka bonus!
-    };
+    <script>
+        function registerUser() {
+            let phone = document.getElementById('phone').value;
+            let pass = document.getElementById('pass').value;
 
-    // Phone ki memory (Local Storage) mein save karein
-    localStorage.setItem('user_' + phone, JSON.stringify(userData));
-    localStorage.setItem('currentUser', phone); // Yaad rakho kaun login hai
+            if(phone.length < 10 || pass.length < 4) {
+                alert("Sahi details daalo bhai!");
+                return;
+            }
 
-    alert("Registration Successful! ₹500 bonus mila hai.");
-    window.location.href = "home.html";
-}
+            let userData = {
+                mobile: phone,
+                password: pass,
+                balance: 500.00 
+            };
+
+            // Memory mein save karna
+            localStorage.setItem('user_' + phone, JSON.stringify(userData));
+            localStorage.setItem('currentUser', phone);
+
+            alert("Registration Successful! ₹500 bonus mila hai.");
+            window.location.href = "home.html";
+        }
+    </script>
+</body>
+</html>
