@@ -3,43 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account - HappyWorld</title>
-    <div style="text-align: center; margin-top: 20px;">
-    <a href="login.html" style="padding: 10px 20px; background: #2196f3; color: white; text-decoration: none; border-radius: 5px;">Login / Register</a>
-    </div>
-    
-    <style>
-        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 0; }
-        .header { background: #161d3a; padding: 20px; text-align: center; font-size: 20px; font-weight: bold; }
-        .profile-section { padding: 20px; text-align: center; }
-        .wallet-card { background: linear-gradient(135deg, #1c244a, #252e5c); margin: 15px; padding: 25px; border-radius: 15px; border: 1px solid #3a467d; }
-        .balance-amount { font-size: 32px; font-weight: bold; margin: 10px 0; color: #ffeb3b; }
-        .btn-group { display: flex; justify-content: space-around; margin-top: 20px; }
-        .action-btn { padding: 12px 30px; border-radius: 25px; border: none; font-weight: bold; color: white; width: 45%; }
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; border-top: 1px solid #333; }
-        .bottom-nav a { color: #888; text-decoration: none; font-size: 11px; text-align: center; }
-        .bottom-nav a.active { color: #ffeb3b; }
-    </style>
+    <title>Happy World - Home</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="header">Center</div>
-    <div class="profile-section">
-        <div style="font-size: 50px;">👤</div>
-        <h3 id="user-phone">User</h3>
-    </div>
-    <div class="wallet-card">
-        <div style="color: #aaa;">Total Balance</div>
-        <div id="user-balance" class="balance-amount">₹0.00</div>
-        <div class="btn-group">
-            <a href="recharge.html" style="width:45%;"><button class="action-btn" style="background: #ff9800; width:100%;">Deposit</button></a>
-            <a href="withdraw.html" style="width:45%;"><button class="action-btn" style="background: #2196f3; width:100%;">Withdraw</button></a>
-        </div>
-    </div>
-    <nav class="bottom-nav">
-        <a href="home.html">🏠<br>Home</a>
-        <a href="activity.html">🏆<br>Activity</a>
-        <a href="promotion.html">📢<br>Promotion</a>
-        <a href="index.html" class="active">👤<br>Account</a>
-    </nav>
+<body style="background-color: #f0f0f0; font-family: Arial, sans-serif; text-align: center; padding-top: 50px;">
+
+    <h1>Welcome to Happy World</h1>
+    <p>Loading your profile...</p>
+
+    <script src="script.js"></script>
     <script>
-        window.onload = function
+        // Check if user is logged in
+        const user = localStorage.getItem("userMobile");
+        if (!user) {
+            // Agar mobile number save nahi hai, toh login page par bhejo
+            window.location.href = "login.html";
+        } else {
+            // Agar login hai, toh game dashboard par bhej do
+            // Aap yahan apne game wali file ka naam likhein (e.g., home.html ya game.html)
+            window.location.href = "home.html"; 
+        }
+    </script>
+</body>
+</html>
