@@ -8,61 +8,73 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #8e2de2, #4facfe); /* Purple to Sky Blue Mix */
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
+            margin: 0; font-family: sans-serif;
+            background: linear-gradient(180deg, #8e2de2 0%, #4facfe 100%); /* Purple to Sky Blue */
+            height: 100vh; display: flex; justify-content: center; align-items: center;
         }
-        .container {
-            width: 90%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
-            text-align: center;
+        .register-card {
+            width: 90%; max-width: 380px; background: rgba(255,255,255,0.1);
+            padding: 30px; border-radius: 20px; backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; color: white;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        h1 { font-size: 35px; margin-bottom: 5px; font-weight: bold; }
+        p { font-size: 14px; opacity: 0.8; margin-bottom: 25px; }
+        .input-box {
+            width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px;
+            border: none; outline: none; background: white; color: #333; box-sizing: border-box;
         }
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
+        .reg-btn {
+            width: 100%; padding: 15px; margin-top: 20px; border-radius: 30px;
+            border: none; background: #00c6ff; color: white; font-weight: bold; font-size: 16px; cursor: pointer;
         }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 5px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            box-sizing: border-box;
-        }
-        .btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 30px;
-            background: #00c6ff;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-        .btn:hover {
-            background: #0072ff;
-            transform: scale(1.02
-                             
+        .footer { margin-top: 15px; font-size: 13px; }
+        .footer a { color: #fff; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="register-card">
+    <h1>HappyWorld</h1>
+    <p>Please register by phone number</p>
+    
+    <input type="number" id="mobile" placeholder="Phone number" class="input-box">
+    <input type="password" id="pass" placeholder="Set password" class="input-box">
+    <input type="text" id="invite" placeholder="Invite code" class="input-box">
+
+    <button class="reg-btn" onclick="doRegister()">Register</button>
+
+    <div class="footer">
+        I have an account <a href="login.html">Login</a>
+    </div>
+</div>
+
+<script>
+    // Tera Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
+        authDomain: "happy-world-25c08.firebaseapp.com",
+        databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
+        projectId: "happy-world-25c08",
+        storageBucket: "happy-world-25c08.appspot.com",
+        messagingSenderId: "192294282796",
+        appId: "1:192294282796:web:be56e1..."
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function doRegister() {
+        const m = document.getElementById("mobile").value;
+        const p = document.getElementById("pass").value;
+
+        if(m.length < 10) { alert("Sahi number dalo!"); return; }
+
+        firebase.database().ref('users/' + m).set({
+            mobile: m, password: p, balance: 0
+        }).then(() => {
+            localStorage.setItem("userMobile", m); // Loop rokne ke liye
+            alert("Registration Successful!");
+            window.location.href = "home.html";
+        }).catch(err => alert(err));
+    }
+</script>
+</body>
+</html>
