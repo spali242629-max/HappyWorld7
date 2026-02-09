@@ -3,39 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WinGo 1Min - Premium</title>
+    <title>WinGo 1Min - HappyWorld</title>
     <style>
         body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding-bottom: 80px; }
-        .header { background: #161d3a; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; }
-        
-        /* Wallet Section - Tiranga Style */
+        .header { background: #161d3a; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
         .wallet-card { background: linear-gradient(135deg, #3a467d, #1c244a); margin: 15px; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #4a5a9d; }
         .wallet-btns { display: flex; justify-content: space-around; margin-top: 15px; }
         .w-btn { padding: 8px 25px; border-radius: 20px; border: none; font-weight: bold; color: white; cursor: pointer; }
-
-        /* Game Section */
         .game-card { background: #1c244a; margin: 15px; padding: 15px; border-radius: 15px; }
         .timer-row { display: flex; justify-content: space-between; align-items: center; }
         .timer { font-size: 28px; font-weight: bold; color: #ffeb3b; }
-
-        /* Color & Number Grid */
         .grid-box { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0; }
         .n-btn { width: 45px; height: 45px; border-radius: 50%; border: none; color: white; font-weight: bold; cursor: pointer; }
         .c0, .c5 { background: linear-gradient(#9c27b0, #f44336); }
         .green { background: #4caf50; }
         .red { background: #f44336; }
-        .violet { background: #9c27b0; }
-
-        /* Big/Small Buttons */
         .bs-row { display: flex; justify-content: space-between; margin-top: 10px; }
-        .bs-btn { width: 48%; padding: 12px; border-radius: 10px; border: none; color: white; font-weight: bold; font-size: 16px; }
-
+        .bs-btn { width: 48%; padding: 12px; border-radius: 10px; border: none; color: white; font-weight: bold; font-size: 16px; cursor: pointer; }
         .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; border-top: 1px solid #333; }
+        .nav-bar span { font-size: 12px; color: #aaa; text-align: center; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="header"> ⬅️ <span style="margin-left: 100px; font-weight: bold;">WinGo 1Min</span> </div>
+    <div class="header">
+        <span onclick="location.href='home.html'">⬅️ Back</span>
+        <span style="font-weight: bold;">WinGo 1Min</span>
+        <span style="width:40px;"></span>
+    </div>
 
     <div class="wallet-card">
         <div style="font-size: 22px; font-weight: bold;">₹ <span id="user-balance">0.00</span></div>
@@ -59,31 +54,34 @@
         </div>
 
         <div class="grid-box">
-            <button class="n-btn c0">0</button>
-            <button class="n-btn green">1</button>
-            <button class="n-btn red">2</button>
-            <button class="n-btn green">3</button>
-            <button class="n-btn red">4</button>
-            <button class="n-btn c5">5</button>
-            <button class="n-btn red">6</button>
-            <button class="n-btn green">7</button>
-            <button class="n-btn red">8</button>
-            <button class="n-btn green">9</button>
+            <button class="n-btn c0" onclick="openBet('0')">0</button>
+            <button class="n-btn green" onclick="openBet('1')">1</button>
+            <button class="n-btn red" onclick="openBet('2')">2</button>
+            <button class="n-btn green" onclick="openBet('3')">3</button>
+            <button class="n-btn red" onclick="openBet('4')">4</button>
+            <button class="n-btn c5" onclick="openBet('5')">5</button>
+            <button class="n-btn red" onclick="openBet('6')">6</button>
+            <button class="n-btn green" onclick="openBet('7')">7</button>
+            <button class="n-btn red" onclick="openBet('8')">8</button>
+            <button class="n-btn green" onclick="openBet('9')">9</button>
         </div>
 
         <div class="bs-row">
-            <button class="bs-btn" style="background: #ff9800;">Big</button>
-            <button class="bs-btn" style="background: #2196f3;">Small</button>
+            <button class="bs-btn" style="background: #ff9800;" onclick="openBet('Big')">Big</button>
+            <button class="bs-btn" style="background: #2196f3;" onclick="openBet('Small')">Small</button>
         </div>
     </div>
 
     <nav class="nav-bar">
         <span onclick="location.href='home.html'">🏠<br>Home</span>
         <span>🏆<br>Activity</span>
-        <span>👤<br>Account</span>
+        <span onclick="location.href='index.html'">👤<br>Account</span>
     </nav>
 
     <script>
+        let selectedChoice = "";
+        let isBetPlaced = false;
+
         function refreshUI() {
             let phone = localStorage.getItem('currentUser');
             if(phone) {
@@ -92,88 +90,53 @@
             }
         }
         window.onload = refreshUI;
-        let selectedAmount = 10; 
-let sele<script>
-    let selectedAmount = 10; 
-    let selectedChoice = ""; 
-    let isBetPlaced = false;
 
-    // 1. UI Refresh Function
-    function refreshUI() {
-        let phone = localStorage.getItem('currentUser');
-        if(phone) {
-            let user = JSON.parse(localStorage.getItem('user_' + phone));
-            document.getElementById('user-balance').innerText = user.balance.toFixed(2);
+        function openBet(choice) {
+            selectedChoice = choice;
+            let confirmBet = confirm("Bet ₹10 on " + choice + "?");
+            if(confirmBet) {
+                let phone = localStorage.getItem('currentUser');
+                let user = JSON.parse(localStorage.getItem('user_' + phone));
+                if(user.balance >= 10) {
+                    user.balance -= 10;
+                    localStorage.setItem('user_' + phone, JSON.stringify(user));
+                    isBetPlaced = true;
+                    refreshUI();
+                    alert("✅ Bet Placed!");
+                } else {
+                    alert("❌ Low Balance!");
+                }
+            }
         }
-    }
-    window.onload = refreshUI;
 
-    // 2. Bet Lagane ka Function (Buttons ke liye)
-    function openBet(choice) {
-        selectedChoice = choice;
-        let confirmBet = confirm("Bet on " + choice + "? (Amount: ₹10)");
-        if(confirmBet) {
-            let phone = localStorage.getItem('currentUser');
-            let user = JSON.parse(localStorage.getItem('user_' + phone));
+        function showResult() {
+            let num = Math.floor(Math.random() * 10);
+            let size = num >= 5 ? "Big" : "Small";
+            let p = document.getElementById('period-num');
             
-            if(user.balance >= 10) {
-                user.balance -= 10;
-                localStorage.setItem('user_' + phone, JSON.stringify(user));
-                isBetPlaced = true;
+            if(isBetPlaced) {
+                if(selectedChoice == num || selectedChoice == size) {
+                    let phone = localStorage.getItem('currentUser');
+                    let user = JSON.parse(localStorage.getItem('user_' + phone));
+                    user.balance += 20; // ₹10 ka ₹20
+                    localStorage.setItem('user_' + phone, JSON.stringify(user));
+                    alert("🎉 WIN! Result: " + num + " (" + size + ")");
+                } else {
+                    alert("💀 LOSS! Result: " + num + " (" + size + ")");
+                }
                 refreshUI();
-                alert("✅ Bet Lag Gayi: " + choice);
-            } else {
-                alert("❌ Paisa kam hai bhai!");
             }
+            isBetPlaced = false;
+            p.innerText = parseInt(p.innerText) + 1;
         }
-    }
-
-    // 3. Result Calculation
-    function showResult() {
-        let num = Math.floor(Math.random() * 10);
-        let size = num >= 5 ? "Big" : "Small";
-        
-        let phone = localStorage.getItem('currentUser');
-        let user = JSON.parse(localStorage.getItem('user_' + phone));
-        
-        if (isBetPlaced) {
-            if (selectedChoice == num || selectedChoice == size) {
-                let winAmt = 10 * 2; 
-                user.balance += winAmt;
-                alert("🎉 JEET GAYE! Result: " + num + " (" + size + ")");
-            } else {
-                alert("💀 LOSS! Result: " + num + " (" + size + ")");
-            }
-            localStorage.setItem('user_' + phone, JSON.stringify(user));
-            refreshUI();
-        }
-        isBetPlaced = false;
-
-        // Period badhane ka logic
-        let p = document.getElementById('period-num');
-        p.innerText = parseInt(p.innerText) + 1;
-    }
-
-    // 4. Timer Logic
-    let time = 60;
-    setInterval(() => {
-        time--;
-        if(time < 0) {
-            showResult();
-            time = 60;
-        }
-        let displayTime = time < 10 ? '0' + time : time;
-        document.getElementById('countdown').innerText = '00:' + displayTime;
-    }, 1000);
-</script>
-
-                          }
-        
 
         let time = 60;
         setInterval(() => {
             time--;
-            if(time < 0) time = 60;
+            if(time < 0) {
+                showResult();
+                time = 60;
+            }
             let displayTime = time < 10 ? '0' + time : time;
             document.getElementById('countdown').innerText = '00:' + displayTime;
         }, 1000);
