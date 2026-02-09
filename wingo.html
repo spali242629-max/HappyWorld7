@@ -3,128 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WinGo 1Min - HappyWorld</title>
+    <title>WinGo Tiranga Style</title>
     <style>
-        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding-bottom: 80px; text-align: center; }
-        .header { display: flex; justify-content: space-between; padding: 15px; background: #161d3a; align-items: center; border-bottom: 1px solid #333; }
-        .game-card { background: #1c244a; margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid #3a467d; }
-        .timer { font-size: 45px; font-weight: bold; color: #ffeb3b; margin: 10px 0; }
-        .btn-box { display: flex; justify-content: space-around; margin-top: 20px; }
-        .bet-btn { padding: 12px 20px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; width: 30%; }
-        table { width: 92%; margin: 20px auto; border-collapse: collapse; background: #161d3a; font-size: 12px; }
-        th, td { padding: 10px; border: 1px solid #3a467d; text-align: center; }
-        #bet-popup { display:none; position:fixed; bottom:0; width:100%; background:#161d3a; border-radius:20px 20px 0 0; padding:20px; box-sizing:border-box; z-index:1000; border-top: 3px solid #ff9800; }
-        .amt-opt { padding:10px; background:#3a467d; color:white; border:none; border-radius:5px; width:22%; }
-        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; border-top: 1px solid #333; }
-        .nav-bar a { color: #888; text-decoration: none; font-size: 11px; }
-    </style>
-</head>
-<body>
+        body { background: #1a237e; color: white; font-family: 'Arial', sans-serif; margin: 0; padding-bottom: 80px; }
+        .top-nav { padding: 15px; display: flex; align-items: center; background: #1a237e; }
+        
+        /* Wallet Section */
+        .wallet-card { background: #283593; margin: 15px; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .balance { font-size: 28px; font-weight: bold; margin: 10px 0; }
+        .wallet-btns { display: flex; justify-content: space-around; margin-top: 15px; }
+        .w-btn { padding: 10px 30px; border-radius: 25px; border: none; font-weight: bold; color: white; cursor: pointer; }
 
-    <div class="header">
-        <a href="home.html" style="color:white; text-decoration:none;">⬅️ Back</a>
-        <div style="font-weight:bold;">WinGo 1Min</div>
-        <div id="user-balance" style="color:#ffeb3b; font-weight:bold;">₹0.00</div>
-    </div>
-
-    <div class="game-card">
-        <div style="color:#aaa; font-size: 14px;">Period: 20260209123</div>
-        <div class="timer" id="countdown">01:00</div>
-        <div class="btn-box">
-            <button class="bet-btn" style="background:#4caf50;" onclick="openBet('Green')">Green</button>
-            <button class="bet-btn" style="background:#9c27b0;" onclick="openBet('Violet')">Violet</button>
-            <button class="bet-btn" style="background:#f44336;" onclick="openBet('Red')">Red</button>
-        </div>
-    </div>
-
-    <h3>Game History</h3>
-    <table>
-        <thead><tr><th>Period</th><th>Num</th><th>Size</th><th>Color</th></tr></thead>
-        <tbody>
-            <tr><td>122</td><td>5</td><td>Big</td><td style="color:#4caf50;">Green</td></tr>
-            <tr><td>121</td><td>2</td><td>Small</td><td style="color:#f44336;">Red</td></tr>
-        </tbody>
-    </table>
-
-    <div id="bet-popup">
-        <h3 id="pop-title">Select Amount</h3>
-        <div style="display:flex; justify-content:space-between; margin:20px 0;">
-            <button class="amt-opt" onclick="setAmt(10)">₹10</button>
-            <button class="amt-opt" onclick="setAmt(100)">₹100</button>
-            <button class="amt-opt" onclick="setAmt(500)">₹500</button>
-            <button class="amt-opt" onclick="setAmt(1000)">₹1000</button>
-        </div>
-        <p>Selected: <span id="display-amt" style="color:#ffeb3b; font-weight:bold;">₹10</span></p>
-        <button onclick="confirmBet()" style="background:#ff9800; color:white; width:100%; padding:15px; border:none; border-radius:30px; font-weight:bold;">Confirm Bet</button>
-        <button onclick="closeBet()" style="background:none; color:#888; border:none; margin-top:10px; width:100%;">Cancel</button>
-    </div>
-
-    <nav class="nav-bar">
-        <a href="home.html">🏠<br>Home</a>
-        <a href="activity.html">🏆<br>Activity</a>
-        <a href="promotion.html">📢<br>Promotion</a>
-        <a href="index.html">👤<br>Account</a>
-    </nav>
-
-    <script>
-        let selectedAmount = 10;
-        let selectedColor = "";
-        let isBetPlaced = false;
-
-        function refreshUI() {
-            let phone = localStorage.getItem('currentUser');
-            if(phone) {
-                let user = JSON.parse(localStorage.getItem('user_' + phone));
-                document.getElementById('user-balance').innerText = "₹" + user.balance.toFixed(2);
-            }
-        }
-        window.onload = refreshUI;
-
-        function openBet(col) {
-            selectedColor = col;
-            document.getElementById('pop-title').innerText = "Bet on " + col;
-            document.getElementById('pop-title').style.color = (col==='Green')?'#4caf50':(col==='Red'?'#f44336':'#9c27b0');
-            document.getElementById('bet-popup').style.display = 'block';
-        }
-
-        function setAmt(a) { selectedAmount = a; document.getElementById('display-amt').innerText = "₹" + a; }
-
-        function closeBet() { document.getElementById('bet-popup').style.display = 'none'; }
-
-        function confirmBet() {
-            let phone = localStorage.getItem('currentUser');
-            let user = JSON.parse(localStorage.getItem('user_' + phone));
-            if(user.balance >= selectedAmount) {
-                user.balance -= selectedAmount;
-                localStorage.setItem('user_' + phone, JSON.stringify(user));
-                refreshUI();
-                isBetPlaced = true;
-                alert("Bet confirmed!");
-                closeBet();
-            } else { alert("Balance low!"); }
-        }
-
-        let time = 60;
-        setInterval(() => {
-            time--;
-            if(time < 0) {
-                if(isBetPlaced) {
-                    let res = Math.random() > 0.5 ? 'Green' : 'Red';
-                    let phone = localStorage.getItem('currentUser');
-                    let user = JSON.parse(localStorage.getItem('user_' + phone));
-                    if(selectedColor === res) {
-                        let win = selectedAmount * 2;
-                        user.balance += win;
-                        alert("Won! Result: " + res);
-                    } else { alert("Loss! Result: " + res); }
-                    localStorage.setItem('user_' + phone, JSON.stringify(user));
-                    refreshUI();
-                    isBetPlaced = false;
-                }
-                time = 60;
-            }
-            document.getElementById('countdown').innerText = `00:${time < 10 ? '0'+time : time}`;
-        }, 1000);
-    </script>
-</body>
-</html>
+        /* Game Area */
+        .game-box { background: #3949ab; margin: 15px; border-radius: 20px; padding: 15px; }
+        .timer-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #5c6bc0; padding-bottom: 10px; }
+        
+        /* Number Grid */
+        .number-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0; }
+        .num-btn { width: 50px; height: 50px; border-radius: 50%; border: none; color: white; font-weight: bold; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: auto; }
+        
+        /* Color Mapping */
+        .n0, .n5 { background: linear-gradient(135deg, #9c27b0, #f44336); } /* Violet + Red/Green */
+        .n1, .n3, .n7, .n9 { background: #4caf50; } /* Green */
+        
