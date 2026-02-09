@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - HappyWorld</title>
+    <style>
+        body { background: #0d122b; color: white; font-family: sans-serif; padding: 30px; text-align: center; }
+        .input-box { background: #161d3a; border: 1px solid #3a467d; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        input { background: none; border: none; color: white; width: 100%; outline: none; }
+        .login-btn { background: #ff9800; color: white; width: 100%; padding: 15px; border-radius: 30px; border: none; font-weight: bold; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <h2>Login</h2>
+    <div class="input-box"><input type="number" id="lPhone" placeholder="Mobile Number"></div>
+    <div class="input-box"><input type="password" id="lPass" placeholder="Password"></div>
+    <button class="login-btn" onclick="loginMe()">Login</button>
+
+    <script>
+        function loginMe() {
+            let p = document.getElementById('lPhone').value;
+            let pass = document.getElementById('lPass').value;
+
+            // Phone ki memory se data nikalein
+            let savedData = localStorage.getItem('user_' + p);
+
+            if (savedData) {
+                let user = JSON.parse(savedData);
+                if (user.password === pass) {
+                    localStorage.setItem('currentUser', p);
+                    alert("Swagat hai wapas!");
+                    window.location.href = "home.html";
+                } else {
+                    alert("Galat password!");
+                }
+            } else {
+                alert("User nahi mila! Register karo.");
+            }
+        }
+    </script>
+</body>
+</html>
