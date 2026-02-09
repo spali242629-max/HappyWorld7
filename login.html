@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HappyWorld | Premium Login</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: radial-gradient(circle at top right, #8e2de2, #4facfe, #000);
+            height: 100vh; display: flex; justify-content: center; align-items: center;
+            font-family: 'Rajdhani', sans-serif; overflow: hidden; color: white;
+        }
+
+        /* Neon Glow Background Particles */
+        body::before {
+            content: ""; position: absolute; width: 300px; height: 300px;
+            background: rgba(142, 45, 226, 0.4); filter: blur(100px);
+            top: 10%; left: 10%; border-radius: 50%; z-index: -1;
+        }
+
+        .login-card {
+            width: 90%; max-width: 420px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 50px 30px; border-radius: 40px;
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 40px rgba(0, 198, 255, 0.2);
+            text-align: center; position: relative; overflow: hidden;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 52px; font-weight: 900;
+            background: linear-gradient(180deg, #fff 0%, #00d2ff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.5));
+            margin-bottom: 5px;
+        }
+
+        .subtitle { font-size: 14px; letter-spacing: 3px; opacity: 0.6; margin-bottom: 40px; text-transform: uppercase; }
+
+        .input-box {
+            width: 100%; padding: 18px; margin-bottom: 20px;
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0, 0, 0, 0.2); color: white;
+            font-size: 18px; outline: none; transition: 0.5s;
+        }
+
+        .input-box:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00d2ff;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+        .login-btn {
+            width: 100%; padding: 20px; border-radius: 20px; border: none;
+            background: linear-gradient(90deg, #8e2de2, #4facfe);
+            color: white; font-weight: 700; font-size: 20px; letter-spacing: 2px;
+            cursor: pointer; transition: 0.4s; margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(142, 45, 226, 0.4);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 210, 255, 0.6);
+        }
+
+        .footer-links { margin-top: 35px; font-size: 16px; }
+        .footer-links a { color: #00d2ff; text-decoration: none; font-weight: bold; }
+        .highlight { border: 1px solid #00d2ff; padding: 5px 15px; border-radius: 10px; margin-left: 5px; }
+
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="logo-text">HAPPYWORLD</div>
+    <p class="subtitle">Next-Gen Gaming Portal</p>
+    
+    <input type="number" id="loginMobile" placeholder="Enter Mobile Number" class="input-box">
+    <input type="password" id="loginPass" placeholder="Enter Password" class="input-box">
+
+    <button class="login-btn" onclick="doLogin()">PROCEED LOGIN</button>
+
+    <div class="footer-links">
+        <p>New Player? <a href="register.html" class="highlight">REGISTER</a></p>
+    </div>
+</div>
+
+<script>
+    // Tera Firebase Config (Yahan apni asli details check kar lena)
+    const firebaseConfig = {
+        apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
+        authDomain: "happy-world-25c08.firebaseapp.com",
+        databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
+        projectId: "happy-world-25c08",
+        storageBucket: "happy-world-25c08.appspot.com",
+        messagingSenderId: "192294282796",
+        appId: "1:192294282796:web:be56e1..."
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function doLogin() {
+        const m = document.getElementById("loginMobile").value;
+        const p = document.getElementById("loginPass").value;
+
+        if(!m || !p) { alert("Bhai data toh bhar!"); return; }
+
+        firebase.database().ref('users/' + m).once('value', (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                if (data.password === p) {
+                    localStorage.setItem("userMobile", m); // Permanent login fix
+                    window.location.href = "home.html";
+                } else { alert("Password galat hai!"); }
+            } else { alert("Account nahi mila!"); }
+        });
+    }
+</script>
+</body>
+</html>
+  
