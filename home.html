@@ -3,119 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - HappyWorld</title>
+    <title>Home - Tiranga Style</title>
     <style>
-        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 0; padding-bottom: 80px; }
-        .header { background: #161d3a; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
-        .banner { width: 92%; margin: 15px auto; height: 150px; background: linear-gradient(45deg, #ff9800, #ffc107); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        body { background: #090e1f; color: white; font-family: sans-serif; margin: 0; padding-bottom: 80px; }
         
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
-        .game-card { background: #1c244a; border-radius: 12px; padding: 15px; text-align: center; border: 1px solid #3a467d; text-decoration: none; color: white; transition: 0.3s; }
-        .game-card:active { transform: scale(0.95); }
-        .game-icon { font-size: 40px; margin-bottom: 10px; display: block; }
-        .game-name { font-weight: bold; font-size: 16px; }
+        /* 1. Main Banner Photo */
+        .banner {
+            width: 100%;
+            height: 180px;
+            background-image: url('https://img.freepik.com/free-vector/abstract-blue-fluid-background_53876-101457.jpg'); /* Yahan apni photo ka link dalein */
+            background-size: cover;
+            background-position: center;
+            border-bottom: 2px solid #2196f3;
+        }
+
+        .header-logo { padding: 10px; text-align: center; background: #1a233b; }
+        .header-logo img { height: 40px; } /* Tiranga Logo yahan aayega */
+
+        /* 2. Game Grid (WinGo Photo) */
+        .game-section { padding: 15px; }
+        .section-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; border-left: 4px solid #ff9800; padding-left: 10px; }
         
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; border-top: 1px solid #333; z-index: 1000; }
-        .bottom-nav a { color: #888; text-decoration: none; font-size: 11px; text-align: center; }
-        .bottom-nav a.active { color: #ffeb3b; }
-        
-        .go-btn-container { margin-top: -30px; }
-        .go-btn { background: #ff9800; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 5px solid #0d122b; box-shadow: 0 0 10px rgba(255,152,0,0.5); }
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .game-card {
+            background: #1c2645;
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+        .game-card img { width: 100%; height: 120px; object-fit: cover; }
+        .game-name { padding: 8px; font-weight: bold; font-size: 14px; }
+
+        .footer-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 15px 0; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div style="font-size: 20px; font-weight: bold; color: #ffeb3b;">HappyWorld</div>
-        <div id="user-display" style="font-size: 12px; color: #aaa;">Guest</div>
+    <div class="header-logo">
+        <h2 style="margin:0; color:#2196f3;">Tiranga Games</h2>
     </div>
 
-    <div class="banner">
-        WIN BIG REWARDS!
-    </div>
+    <div class="banner"></div>
 
-    <div class="game-grid">
-        <a href="wingo.html" class="game-card">
-            <span class="game-icon">🎰</span>
-            <span class="game-name">WinGo 1Min</span>
-            <div style="font-size: 10px; color: #4caf50; margin-top: 5px;">Easy to Win</div>
-        </a>
+    <div class="game-section">
+        <div class="section-title">Lottery Games</div>
+        <div class="game-grid">
+            
+            <div class="game-card" onclick="location.href='wingo.html'">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR65eKk8-G-W-f4R0B9e99Xf0x6-9-v-9-v-Q&s" alt="WinGo">
+                <div class="game-name">WinGo 1Min</div>
+            </div>
 
-        <a href="#" class="game-card" onclick="alert('Coming Soon!')">
-            <span class="game-icon">🎲</span>
-            <span class="game-name">Trx Hash</span>
-            <div style="font-size: 10px; color: #888; margin-top: 5px;">Locked</div>
-        </a>
+            <div class="game-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-m_0_x69R5O-nQ3hI7Jj_7v6O4E3fX8Wzg&s" alt="K3">
+                <div class="game-name">K3 Lotre</div>
+            </div>
 
-        <a href="#" class="game-card" onclick="alert('Coming Soon!')">
-            <span class="game-icon">🃏</span>
-            <span class="game-name">Slots</span>
-            <div style="font-size: 10px; color: #888; margin-top: 5px;">Locked</div>
-        </a>
-
-        <a href="#" class="game-card" onclick="alert('Coming Soon!')">
-            <span class="game-icon">🎯</span>
-            <span class="game-name">Aviator</span>
-            <div style="font-size: 10px; color: #888; margin-top: 5px;">Locked</div>
-        </a>
-    </div>
-
-    <nav class="bottom-nav">
-        <a href="home.html" class="active">🏠<br>Home</a>
-        <a href="activity.html">🏆<br>Activity</a>
-        <div class="go-btn-container">
-            <a href="wingo.html" style="text-decoration:none;"><div class="go-btn">GO</div></a>
         </div>
-        <a href="promotion.html">📢<br>Promotion</a>
-        <a href="index.html">👤<br>Account</a>
-    </nav>
+    </div>
 
-    <script>
-        window.onload = function() {
-            // Check if user is logged in
-            let currentMobile = localStorage.getItem('currentUser');
-            if (currentMobile) {
-                document.getElementById('user-display').innerText = "ID: " + currentMobile;
-            } else {
-                // If not logged in, redirect to register
-                window.location.href = "register.html";
-            }
-        };
-    </script>
+    <nav class="footer-nav">
+        <span>🏠 Home</span>
+        <span onclick="location.href='index.html'">👤 Account</span>
+    </nav>
 
 </body>
 </html>
-        <div style="color: #ffeb3b;">Popular</div>
-        <div>Lottery</div>
-        <div>Casino</div>
-        <div>Slots</div>
-    </div>
-
-    <a href="wingo.html" style="text-decoration: none; color: inherit;">
-    <div class="game-card">
-        <div class="rtp">RTP 97.2%</div>
-        <div class="icon">💰</div>
-        <div class="game-title">WinGo</div>
-    </div>
-</a>
-        </div>
-        <div class="game-card">
-            <div class="rtp">RTP 96.9%</div>
-            <div class="icon">✈️</div>
-            <div class="game-title">Aviator</div>
-        </div>
-        <div class="game-card">
-            <div class="rtp">RTP 97.6%</div>
-            <div class="icon">💣</div>
-            <div class="game-title">Mines</div>
-        </div>
-    </div>
-
-<nav class="bottom-nav">
-    <a href="home.html">🏠<br>Home</a>
-    <a href="activity.html">🏆<br>Activity</a>
-    <div class="go-btn-container"><div class="go-btn">GO</div></div>
-    <a href="#">📢<br>Promotion</a>
-    <a href="index.html">👤<br>Account</a>
-</nav>
-
