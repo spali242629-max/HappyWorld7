@@ -1,32 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - HappyWorld</title>
-    <style>
-        body { background: #0d122b; color: white; font-family: sans-serif; padding: 20px; text-align: center; }
-        .input-box { background: #161d3a; border: 1px solid #3a467d; padding: 15px; border-radius: 10px; margin-top: 15px; }
-        input { background: none; border: none; color: white; width: 100%; outline: none; }
-        .reg-btn { background: #ff9800; color: white; width: 100%; padding: 15px; border-radius: 30px; border: none; font-weight: bold; margin-top: 30px; }
-    </style>
-</head>
-<body>
-    <h2>Create Account</h2>
-    <div class="input-box"><input type="number" id="phone" placeholder="Mobile Number"></div>
-    <div class="input-box"><input type="password" id="pass" placeholder="Password"></div>
-    <div class="input-box"><input type="text" id="invite" placeholder="Invite Code (Optional)"></div>
-    
-    <button class="reg-btn" onclick="registerUser()">Register</button>
-    <p>Already have an account? <a href="login.html" style="color:#ff9800;">Login</a></p>
+function registerUser() {
+    let phone = document.getElementById('phone').value;
+    let pass = document.getElementById('pass').value;
 
-    <script>
-        function registerUser() {
-            let p = document.getElementById('phone').value;
-            if(p.length < 10) { alert("Sahi number daalo bhai!"); return; }
-            alert("Registration successful! (Abhi hum ise Database se jodenge)");
-            window.location.href = "home.html";
-        }
-    </script>
-</body>
-</html>
+    if(phone.length < 10 || pass.length < 4) {
+        alert("Sahi details daalo bhai!");
+        return;
+    }
+
+    // User ka data ek "dibbe" (Object) mein rakhein
+    let userData = {
+        mobile: phone,
+        password: pass,
+        balance: 500.00 // Naye user ko 500 ka bonus!
+    };
+
+    // Phone ki memory (Local Storage) mein save karein
+    localStorage.setItem('user_' + phone, JSON.stringify(userData));
+    localStorage.setItem('currentUser', phone); // Yaad rakho kaun login hai
+
+    alert("Registration Successful! ₹500 bonus mila hai.");
+    window.location.href = "home.html";
+}
