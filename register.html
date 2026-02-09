@@ -3,45 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - HappyWorld</title>
-    <style>
-        body { background: #0d122b; color: white; font-family: sans-serif; text-align: center; padding: 50px 20px; }
-        .box { background: #161d3a; padding: 20px; border-radius: 15px; border: 1px solid #3a467d; }
-        input { width: 90%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; background: #0d122b; color: white; outline: none; }
-        .btn { background: #ff9800; color: white; width: 100%; padding: 15px; border-radius: 30px; border: none; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 20px; }
-    </style>
+    <title>Register - Happy World</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 </head>
-<body>
+<body style="text-align: center; padding-top: 50px; font-family: sans-serif;">
 
     <h2>Create Account</h2>
-    <div class="box">
-        <input type="number" id="phone" placeholder="Mobile Number">
-        <input type="password" id="pass" placeholder="Password">
-        <button class="btn" onclick="registerUser()">Register</button>
-    </div>
+    <input type="number" id="mobileNumber" placeholder="Mobile Number" style="padding: 10px; margin: 10px;"><br>
+    <input type="password" id="password" placeholder="Password" style="padding: 10px; margin: 10px;"><br>
+    <button onclick="registerUser()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; cursor: pointer;">Register</button>
 
     <script>
-        function registerUser() {
-            let phone = document.getElementById('phone').value;
-            let pass = document.getElementById('pass').value;
+        // 1. Aapka Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
+            authDomain: "happy-world-25c08.firebaseapp.com",
+            databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
+            projectId: "happy-world-25c08",
+            storageBucket: "happy-world-25c08.appspot.com",
+            messagingSenderId: "192294282796",
+            appId: "1:192294282796:web:be56e1..."
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-            if(phone.length < 10 || pass.length < 4) {
-                alert("Sahi details daalo bhai!");
+        function registerUser() {
+            const mobile = document.getElementById("mobileNumber").value;
+            const pass = document.getElementById("password").value;
+
+            if(mobile == "" || pass == "") {
+                alert("Please fill all details");
                 return;
             }
 
-            let userData = {
-                mobile: phone,
+            // 2. Data Firebase mein save karna
+            firebase.database().ref('users/' + mobile).set({
+                mobile: mobile,
                 password: pass,
-                balance: 500.00 
-            };
-
-            // Memory mein save karna
-            localStorage.setItem('user_' + phone, JSON.stringify(userData));
-            localStorage.setItem('currentUser', phone);
-
-            alert("Registration Successful! ₹500 bonus mila hai.");
-            window.location.href = "home.html";
+                balance: 0
+            }, (error) => {
+                if (error) {
+                    alert("Data save nahi hua: " + error);
+                } else {
+                    // 3. Browser ki memory mein save karo (Ye loop rokega!)
+                    localStorage.setItem("userMobile", mobile);
+                    alert("Registration Successful!");
+                    
+                    // 4. Seedhe Game page par bhej do
+                    window.location.href = "home.html";
+                }
+            });
         }
     </script>
 </body>
