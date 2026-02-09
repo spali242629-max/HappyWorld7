@@ -93,54 +93,80 @@
         }
         window.onload = refreshUI;
         let selectedAmount = 10; 
-let selectedChoice = ""; 
-let isBetPlaced = false;
+let sele<script>
+    let selectedAmount = 10; 
+    let selectedChoice = ""; 
+    let isBetPlaced = false;
 
-// 1. Bet lagane ka function
-function openBet(choice) {
-    selectedChoice = choice;
-    let confirmBet = confirm("Bet on " + choice + "? (Amount: ₹10)");
-    if(confirmBet) {
+    // 1. UI Refresh Function
+    function refreshUI() {
+        let phone = localStorage.getItem('currentUser');
+        if(phone) {
+            let user = JSON.parse(localStorage.getItem('user_' + phone));
+            document.getElementById('user-balance').innerText = user.balance.toFixed(2);
+        }
+    }
+    window.onload = refreshUI;
+
+    // 2. Bet Lagane ka Function (Buttons ke liye)
+    function openBet(choice) {
+        selectedChoice = choice;
+        let confirmBet = confirm("Bet on " + choice + "? (Amount: ₹10)");
+        if(confirmBet) {
+            let phone = localStorage.getItem('currentUser');
+            let user = JSON.parse(localStorage.getItem('user_' + phone));
+            
+            if(user.balance >= 10) {
+                user.balance -= 10;
+                localStorage.setItem('user_' + phone, JSON.stringify(user));
+                isBetPlaced = true;
+                refreshUI();
+                alert("✅ Bet Lag Gayi: " + choice);
+            } else {
+                alert("❌ Paisa kam hai bhai!");
+            }
+        }
+    }
+
+    // 3. Result Calculation
+    function showResult() {
+        let num = Math.floor(Math.random() * 10);
+        let size = num >= 5 ? "Big" : "Small";
+        
         let phone = localStorage.getItem('currentUser');
         let user = JSON.parse(localStorage.getItem('user_' + phone));
         
-        if(user.balance >= 10) {
-            user.balance -= 10;
+        if (isBetPlaced) {
+            if (selectedChoice == num || selectedChoice == size) {
+                let winAmt = 10 * 2; 
+                user.balance += winAmt;
+                alert("🎉 JEET GAYE! Result: " + num + " (" + size + ")");
+            } else {
+                alert("💀 LOSS! Result: " + num + " (" + size + ")");
+            }
             localStorage.setItem('user_' + phone, JSON.stringify(user));
-            isBetPlaced = true;
             refreshUI();
-            alert("✅ Bet Lag Gayi!");
-        } else {
-            alert("❌ Balance Kam Hai!");
         }
-    }
-}
+        isBetPlaced = false;
 
-// 2. Result dikhane ka function
-function showResult() {
-    let num = Math.floor(Math.random() * 10);
-    let size = num >= 5 ? "Big" : "Small";
-    
-    let phone = localStorage.getItem('currentUser');
-    let user = JSON.parse(localStorage.getItem('user_' + phone));
-    
-    if (isBetPlaced) {
-        if (selectedChoice == num || selectedChoice == size) {
-            let winAmt = 10 * 2; 
-            user.balance += winAmt;
-            alert("🎉 JEET GAYE! Result: " + num + " (" + size + ")");
-        } else {
-            alert("💀 LOSS! Result: " + num + " (" + size + ")");
-        }
-        localStorage.setItem('user_' + phone, JSON.stringify(user));
-        refreshUI();
+        // Period badhane ka logic
+        let p = document.getElementById('period-num');
+        p.innerText = parseInt(p.innerText) + 1;
     }
-    isBetPlaced = false;
-}
-        // Apne purane setInterval ke andar jahan if(time < 0) hai, wahan ye line jodo
-if(time < 0) {
-    showResult(); // <-- Ye line yahan honi chahiye
-    time = 60;
+
+    // 4. Timer Logic
+    let time = 60;
+    setInterval(() => {
+        time--;
+        if(time < 0) {
+            showResult();
+            time = 60;
+        }
+        let displayTime = time < 10 ? '0' + time : time;
+        document.getElementById('countdown').innerText = '00:' + displayTime;
+    }, 1000);
+</script>
+
                           }
         
 
