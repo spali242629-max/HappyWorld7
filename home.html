@@ -3,37 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HappyWorld - Home</title>
+    <title>Home - HappyWorld</title>
     <style>
-        body { background-color: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 0; }
-        .header { display: flex; justify-content: space-between; padding: 15px; background: #161d3a; font-weight: bold; }
-        .nav-tabs { display: flex; justify-content: space-around; padding: 12px; background: #1c244a; font-size: 14px; border-bottom: 1px solid #2a345e; }
-        .game-container { display: flex; flex-direction: column; gap: 15px; padding: 20px; margin-bottom: 80px; }
-        .game-card { 
-            background: linear-gradient(135deg, #1e264a, #2a345e); 
-            border-radius: 20px; 
-            padding: 25px; 
-            text-align: center; 
-            border: 1px solid #3a467d;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .rtp { color: #aaa; font-size: 12px; margin-bottom: 5px; }
-        .icon { font-size: 35px; margin-bottom: 10px; }
-        .game-title { font-size: 18px; font-weight: bold; }
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; align-items: center; }
-        .bottom-nav a { color: #888; text-decoration: none; font-size: 11px; text-align: center; flex: 1; }
+        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 0; padding-bottom: 80px; }
+        .header { background: #161d3a; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .banner { width: 92%; margin: 15px auto; height: 150px; background: linear-gradient(45deg, #ff9800, #ffc107); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
+        .game-card { background: #1c244a; border-radius: 12px; padding: 15px; text-align: center; border: 1px solid #3a467d; text-decoration: none; color: white; transition: 0.3s; }
+        .game-card:active { transform: scale(0.95); }
+        .game-icon { font-size: 40px; margin-bottom: 10px; display: block; }
+        .game-name { font-weight: bold; font-size: 16px; }
+        
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; border-top: 1px solid #333; z-index: 1000; }
+        .bottom-nav a { color: #888; text-decoration: none; font-size: 11px; text-align: center; }
         .bottom-nav a.active { color: #ffeb3b; }
-        .go-btn-container { position: relative; bottom: 20px; }
-        .go-btn { background: #ff9800; border-radius: 50%; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 4px solid #0d122b; box-shadow: 0 0 10px rgba(255,152,0,0.5); }
+        
+        .go-btn-container { margin-top: -30px; }
+        .go-btn { background: #ff9800; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 5px solid #0d122b; box-shadow: 0 0 10px rgba(255,152,0,0.5); }
     </style>
 </head>
 <body>
+
     <div class="header">
-        <span>HappyWorld</span>
-        <span>₹0.58</span>
+        <div style="font-size: 20px; font-weight: bold; color: #ffeb3b;">HappyWorld</div>
+        <div id="user-display" style="font-size: 12px; color: #aaa;">Guest</div>
     </div>
 
-    <div class="nav-tabs">
+    <div class="banner">
+        WIN BIG REWARDS!
+    </div>
+
+    <div class="game-grid">
+        <a href="wingo.html" class="game-card">
+            <span class="game-icon">🎰</span>
+            <span class="game-name">WinGo 1Min</span>
+            <div style="font-size: 10px; color: #4caf50; margin-top: 5px;">Easy to Win</div>
+        </a>
+
+        <a href="#" class="game-card" onclick="alert('Coming Soon!')">
+            <span class="game-icon">🎲</span>
+            <span class="game-name">Trx Hash</span>
+            <div style="font-size: 10px; color: #888; margin-top: 5px;">Locked</div>
+        </a>
+
+        <a href="#" class="game-card" onclick="alert('Coming Soon!')">
+            <span class="game-icon">🃏</span>
+            <span class="game-name">Slots</span>
+            <div style="font-size: 10px; color: #888; margin-top: 5px;">Locked</div>
+        </a>
+
+        <a href="#" class="game-card" onclick="alert('Coming Soon!')">
+            <span class="game-icon">🎯</span>
+            <span class="game-name">Aviator</span>
+            <div style="font-size: 10px; color: #888; margin-top: 5px;">Locked</div>
+        </a>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="active">🏠<br>Home</a>
+        <a href="activity.html">🏆<br>Activity</a>
+        <div class="go-btn-container">
+            <a href="wingo.html" style="text-decoration:none;"><div class="go-btn">GO</div></a>
+        </div>
+        <a href="promotion.html">📢<br>Promotion</a>
+        <a href="index.html">👤<br>Account</a>
+    </nav>
+
+    <script>
+        window.onload = function() {
+            // Check if user is logged in
+            let currentMobile = localStorage.getItem('currentUser');
+            if (currentMobile) {
+                document.getElementById('user-display').innerText = "ID: " + currentMobile;
+            } else {
+                // If not logged in, redirect to register
+                window.location.href = "register.html";
+            }
+        };
+    </script>
+
+</body>
+</html>
         <div style="color: #ffeb3b;">Popular</div>
         <div>Lottery</div>
         <div>Casino</div>
