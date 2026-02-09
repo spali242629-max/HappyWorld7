@@ -10,102 +10,10 @@
         .game-card { background: #1c244a; margin: 15px; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #3a467d; }
         .timer { font-size: 45px; font-weight: bold; color: #ffeb3b; margin: 10px 0; }
         .btn-box { display: flex; justify-content: space-around; margin-top: 20px; }
-        .bet-btn { padding: 12px 25px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; text-transform: uppercase; }
+        .bet-btn { padding: 12px 25px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; text-transform: uppercase; width: 30%; }
         
         /* Popup Styling */
         #bet-popup { display:none; position:fixed; bottom:0; width:100%; background:#161d3a; border-radius:20px 20px 0 0; padding:20px; box-sizing:border-box; z-index:1000; border-top: 3px solid #ff9800; }
         .amt-opt { padding:10px; background:#3a467d; color:white; border:none; border-radius:5px; width:22%; font-weight:bold; }
         
-        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; }
-        .nav-bar a { color: #888; text-decoration: none; font-size: 11px; text-align: center; }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <a href="home.html" style="color:white; text-decoration:none;">⬅️ Back</a>
-        <div style="font-weight:bold;">WinGo 1Min</div>
-        <div id="user-balance" style="color:#ffeb3b; font-weight:bold;">₹0.00</div>
-    </div>
-
-    <div class="game-card">
-        <div style="color:#aaa; font-size: 14px;">Period: 20260209123</div>
-        <div class="timer" id="countdown">01:00</div>
-        <div class="btn-box">
-            <button class="bet-btn" style="background:#4caf50;" onclick="openBet('Green')">Green</button>
-            <button class="bet-btn" style="background:#9c27b0;" onclick="openBet('Violet')">Violet</button>
-            <button class="bet-btn" style="background:#f44336;" onclick="openBet('Red')">Red</button>
-        </div>
-    </div>
-
-    <div id="bet-popup">
-        <h3 id="pop-title" style="text-align:center;">Select Amount</h3>
-        <div style="display:flex; justify-content:space-between; margin:20px 0;">
-            <button class="amt-opt" onclick="setAmt(10)">₹10</button>
-            <button class="amt-opt" onclick="setAmt(100)">₹100</button>
-            <button class="amt-opt" onclick="setAmt(500)">₹500</button>
-            <button class="amt-opt" onclick="setAmt(1000)">₹1000</button>
-        </div>
-        <p style="text-align:center;">Bet Amount: <span id="display-amt" style="color:#ffeb3b; font-weight:bold;">₹10</span></p>
-        <button onclick="confirmBet()" style="background:#ff9800; color:white; width:100%; padding:15px; border:none; border-radius:30px; font-weight:bold; font-size:16px;">Confirm Bet</button>
-        <button onclick="closeBet()" style="background:none; color:#888; border:none; margin-top:10px; width:100%;">Cancel</button>
-    </div>
-
-    <nav class="nav-bar">
-        <a href="home.html">🏠<br>Home</a>
-        <a href="activity.html">🏆<br>Activity</a>
-        <a href="promotion.html">📢<br>Promotion</a>
-        <a href="index.html">👤<br>Account</a>
-    </nav>
-
-    <script>
-        let selectedAmount = 10;
-        let selectedColor = "";
-
-        window.onload = function() {
-            refreshBalance();
-        };
-
-        function refreshBalance() {
-            let user = localStorage.getItem('currentUser');
-            if(user) {
-                let data = JSON.parse(localStorage.getItem('user_' + user));
-                document.getElementById('user-balance').innerText = "₹" + data.balance.toFixed(2);
-            }
-        }
-
-        function openBet(col) {
-            selectedColor = col;
-            document.getElementById('pop-title').innerText = "Bet on " + col;
-            document.getElementById('pop-title').style.color = col === 'Green' ? '#4caf50' : (col === 'Red' ? '#f44336' : '#9c27b0');
-            document.getElementById('bet-popup').style.display = 'block';
-        }
-
-        function setAmt(a) {
-            selectedAmount = a;
-            document.getElementById('display-amt').innerText = "₹" + a;
-        }
-
-        function closeBet() { document.getElementById('bet-popup').style.display = 'none'; }
-
-        function confirmBet() {
-            let user = localStorage.getItem('currentUser');
-            let data = JSON.parse(localStorage.getItem('user_' + user));
-            if(data.balance >= selectedAmount) {
-                data.balance -= selectedAmount;
-                localStorage.setItem('user_' + user, JSON.stringify(data));
-                refreshBalance();
-                alert("Bet Lag Gayi!");
-                closeBet();
-            } else { alert("Paisa kam hai bhai!"); }
-        }
-
-        // 60 Sec Timer
-        let t = 60;
-        setInterval(() => {
-            t--; if(t < 0) t = 60;
-            document.getElementById('countdown').innerText = `00:${t < 10 ? '0'+t : t}`;
-        }, 1000);
-    </script>
-</body>
-</html>
+        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 1
