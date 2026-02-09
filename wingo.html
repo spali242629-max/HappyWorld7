@@ -3,85 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WinGo 1Min - HappyWorld</title>
+    <title>WinGo - Tiranga Style</title>
     <style>
-        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding-bottom: 80px; }
-        .header { background: #161d3a; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
-        .wallet-card { background: linear-gradient(135deg, #3a467d, #1c244a); margin: 15px; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #4a5a9d; }
-        .wallet-btns { display: flex; justify-content: space-around; margin-top: 15px; }
-        .w-btn { padding: 8px 25px; border-radius: 20px; border: none; font-weight: bold; color: white; cursor: pointer; }
-        .game-card { background: #1c244a; margin: 15px; padding: 15px; border-radius: 15px; }
-        .timer-row { display: flex; justify-content: space-between; align-items: center; }
-        .timer { font-size: 28px; font-weight: bold; color: #ffeb3b; }
-        .grid-box { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0; }
-        .n-btn { width: 45px; height: 45px; border-radius: 50%; border: none; color: white; font-weight: bold; cursor: pointer; }
-        .c0, .c5 { background: linear-gradient(#9c27b0, #f44336); }
-        .green { background: #4caf50; }
-        .red { background: #f44336; }
-        .bs-row { display: flex; justify-content: space-between; margin-top: 10px; }
-        .bs-btn { width: 48%; padding: 12px; border-radius: 10px; border: none; color: white; font-weight: bold; font-size: 16px; cursor: pointer; }
-        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; border-top: 1px solid #333; }
-        .nav-bar span { font-size: 12px; color: #aaa; text-align: center; cursor: pointer; }
+        body { background-color: #090e1f; color: white; font-family: 'Arial', sans-serif; margin: 0; padding-bottom: 70px; }
+        .top-nav { background: #1a233b; padding: 15px; display: flex; align-items: center; justify-content: space-between; }
+        
+        /* Wallet Section */
+        .wallet-card { background: linear-gradient(180deg, #2a3a6a 0%, #16203a 100%); margin: 15px; padding: 20px; border-radius: 20px; text-align: center; }
+        .balance-text { font-size: 24px; font-weight: bold; margin: 5px 0; color: #ffeb3b; }
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
+        .w-btn { padding: 8px 25px; border-radius: 20px; border: none; font-weight: bold; color: white; }
+
+        /* Timer Tabs (30s, 1m, 3m, 5m) */
+        .tabs-container { display: flex; justify-content: space-around; background: #1c2645; margin: 15px; border-radius: 10px; padding: 5px; }
+        .tab-item { text-align: center; padding: 10px; flex: 1; cursor: pointer; border-radius: 8px; }
+        .tab-active { background: linear-gradient(180deg, #4da1ff 0%, #2196f3 100%); color: white; }
+        .tab-item img { width: 30px; display: block; margin: 0 auto 5px; }
+        .tab-item span { font-size: 11px; color: #8a94ad; }
+        .tab-active span { color: white; }
+
+        /* Game Box */
+        .game-box { background: #1c2645; margin: 15px; padding: 15px; border-radius: 15px; }
+        .timer-num { font-size: 32px; font-weight: bold; color: #ffeb3b; text-shadow: 0 0 10px rgba(255,235,59,0.5); }
+
+        /* Number Ball Colors - Exact as Tiranga */
+        .number-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 20px; }
+        .num-ball { width: 45px; height: 45px; border-radius: 50%; border: none; font-weight: bold; color: white; font-size: 16px; box-shadow: 0 3px 5px rgba(0,0,0,0.3); }
+        .ball-0 { background: linear-gradient(135deg, #9127b7 50%, #e94141 50%); }
+        .ball-5 { background: linear-gradient(135deg, #9127b7 50%, #22af5d 50%); }
+        .ball-red { background: #e94141; }
+        .ball-green { background: #22af5d; }
+
+        .footer { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <span onclick="location.href='home.html'">⬅️ Back</span>
-        <span style="font-weight: bold;">WinGo 1Min</span>
-        <span style="width:40px;"></span>
+    <div class="top-nav">
+        <span>⬅️</span>
+        <span style="font-weight: bold;">WinGo</span>
+        <span>🎧</span>
     </div>
 
     <div class="wallet-card">
-        <div style="font-size: 22px; font-weight: bold;">₹ <span id="user-balance">0.00</span></div>
-        <div style="font-size: 12px; color: #aaa;">Wallet Balance 🔄</div>
-        <div class="wallet-btns">
-            <button class="w-btn" style="background: #f44336;">Withdraw</button>
-            <button class="w-btn" style="background: #4caf50;">Deposit</button>
+        <div class="balance-text">₹ <span id="user-balance">0.00</span> 🔄</div>
+        <div style="font-size: 12px; color: #8a94ad;">Wallet balance</div>
+        <div class="btn-group">
+            <button class="w-btn" style="background:#e94141;">Withdraw</button>
+            <button class="w-btn" style="background:#22af5d;">Deposit</button>
         </div>
     </div>
 
-    <div class="game-card">
-        <div class="timer-row">
+    <div class="tabs-container">
+        <div class="tab-item">🕒<span>WinGo<br>30sec</span></div>
+        <div class="tab-item tab-active">🕒<span>WinGo<br>1 Min</span></div>
+        <div class="tab-item">🕒<span>WinGo<br>3 Min</span></div>
+        <div class="tab-item">🕒<span>WinGo<br>5 Min</span></div>
+    </div>
+
+    <div class="game-box">
+        <div style="display: flex; justify-content: space-between;">
             <div>
-                <div style="font-size: 12px; color: #aaa;">Period</div>
+                <div style="font-size: 12px; color: #8a94ad;">Period</div>
                 <div id="period-num" style="font-weight: bold;">202602091000</div>
             </div>
             <div style="text-align: right;">
-                <div style="font-size: 12px; color: #aaa;">Time remaining</div>
-                <div class="timer" id="countdown">01:00</div>
+                <div style="font-size: 12px; color: #8a94ad;">Time remaining</div>
+                <div class="timer-num" id="countdown">01:00</div>
             </div>
         </div>
 
-        <div class="grid-box">
-            <button class="n-btn c0" onclick="openBet('0')">0</button>
-            <button class="n-btn green" onclick="openBet('1')">1</button>
-            <button class="n-btn red" onclick="openBet('2')">2</button>
-            <button class="n-btn green" onclick="openBet('3')">3</button>
-            <button class="n-btn red" onclick="openBet('4')">4</button>
-            <button class="n-btn c5" onclick="openBet('5')">5</button>
-            <button class="n-btn red" onclick="openBet('6')">6</button>
-            <button class="n-btn green" onclick="openBet('7')">7</button>
-            <button class="n-btn red" onclick="openBet('8')">8</button>
-            <button class="n-btn green" onclick="openBet('9')">9</button>
+        <div class="number-grid">
+            <button class="num-ball ball-0" onclick="openBet('0')">0</button>
+            <button class="num-ball ball-green" onclick="openBet('1')">1</button>
+            <button class="num-ball ball-red" onclick="openBet('2')">2</button>
+            <button class="num-ball ball-green" onclick="openBet('3')">3</button>
+            <button class="num-ball ball-red" onclick="openBet('4')">4</button>
+            <button class="num-ball ball-5" onclick="openBet('5')">5</button>
+            <button class="num-ball ball-red" onclick="openBet('6')">6</button>
+            <button class="num-ball ball-green" onclick="openBet('7')">7</button>
+            <button class="num-ball ball-red" onclick="openBet('8')">8</button>
+            <button class="num-ball ball-green" onclick="openBet('9')">9</button>
         </div>
 
-        <div class="bs-row">
-            <button class="bs-btn" style="background: #ff9800;" onclick="openBet('Big')">Big</button>
-            <button class="bs-btn" style="background: #2196f3;" onclick="openBet('Small')">Small</button>
+        <div style="display:flex; justify-content: space-between; margin-top: 20px;">
+            <button onclick="openBet('Big')" style="background:#ff9800; width:48%; padding:12px; border:none; color:white; font-weight:bold; border-radius: 0 20px 20px 0;">Big</button>
+            <button onclick="openBet('Small')" style="background:#2196f3; width:48%; padding:12px; border:none; color:white; font-weight:bold; border-radius: 20px 0 0 20px;">Small</button>
         </div>
     </div>
 
-    <nav class="nav-bar">
-        <span onclick="location.href='home.html'">🏠<br>Home</span>
-        <span>🏆<br>Activity</span>
-        <span onclick="location.href='index.html'">👤<br>Account</span>
-    </nav>
-
     <script>
-        let selectedChoice = "";
-        let isBetPlaced = false;
-
+        // Balance Load
         function refreshUI() {
             let phone = localStorage.getItem('currentUser');
             if(phone) {
@@ -91,54 +103,31 @@
         }
         window.onload = refreshUI;
 
+        // Bet Function
         function openBet(choice) {
-            selectedChoice = choice;
-            let confirmBet = confirm("Bet ₹10 on " + choice + "?");
-            if(confirmBet) {
+            let amt = prompt("Enter Bet Amount:", "10");
+            if(amt) {
                 let phone = localStorage.getItem('currentUser');
                 let user = JSON.parse(localStorage.getItem('user_' + phone));
-                if(user.balance >= 10) {
-                    user.balance -= 10;
+                if(user.balance >= amt) {
+                    user.balance -= amt;
                     localStorage.setItem('user_' + phone, JSON.stringify(user));
-                    isBetPlaced = true;
                     refreshUI();
-                    alert("✅ Bet Placed!");
-                } else {
-                    alert("❌ Low Balance!");
-                }
+                    alert("Bet Placed on " + choice);
+                } else { alert("Insufficient Balance!"); }
             }
         }
 
-        function showResult() {
-            let num = Math.floor(Math.random() * 10);
-            let size = num >= 5 ? "Big" : "Small";
-            let p = document.getElementById('period-num');
-            
-            if(isBetPlaced) {
-                if(selectedChoice == num || selectedChoice == size) {
-                    let phone = localStorage.getItem('currentUser');
-                    let user = JSON.parse(localStorage.getItem('user_' + phone));
-                    user.balance += 20; // ₹10 ka ₹20
-                    localStorage.setItem('user_' + phone, JSON.stringify(user));
-                    alert("🎉 WIN! Result: " + num + " (" + size + ")");
-                } else {
-                    alert("💀 LOSS! Result: " + num + " (" + size + ")");
-                }
-                refreshUI();
-            }
-            isBetPlaced = false;
-            p.innerText = parseInt(p.innerText) + 1;
-        }
-
+        // Timer Logic
         let time = 60;
         setInterval(() => {
             time--;
             if(time < 0) {
-                showResult();
                 time = 60;
+                let p = document.getElementById('period-num');
+                p.innerText = parseInt(p.innerText) + 1;
             }
-            let displayTime = time < 10 ? '0' + time : time;
-            document.getElementById('countdown').innerText = '00:' + displayTime;
+            document.getElementById('countdown').innerText = "00:" + (time < 10 ? '0' + time : time);
         }, 1000);
     </script>
 </body>
