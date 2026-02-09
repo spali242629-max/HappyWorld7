@@ -39,6 +39,101 @@
     <h3>Game History</h3>
     <table>
         <thead><tr><th>Period</th><th>Num</th><th>Size</th><th>Color</th></tr></thead>
+        <tbody id="history-body">
+            <tr><td>122</td><td>5</td><td>Big</td><td style="color:#4caf50;">Green</td></tr>
+        </tbody>
+    </table>
+
+    <div id="bet-popup">
+        <h3 id="pop-title">Select Amount</h3>
+        <div style="display:flex; justify-content:space-between; margin:20px 0;">
+            <button class="amt-opt" onclick="setAmt(10)">₹10</button>
+            <button class="amt-opt" onclick="setAmt(100)">₹100</button>
+            <button class="amt-opt" onclick="setAmt(500)">₹500</button>
+            <button class="amt-opt" onclick="setAmt(1000)">₹1000</button>
+        </div>
+        <p>Selected: <span id="display-amt" style="color:#ffeb3b; font-weight:bold;">₹10</span></p>
+        <button onclick="confirmBet()" style="background:#ff9800; color:white; width:100%; padding:15px; border:none; border-radius:30px; font-weight:bold;">Confirm Bet</button>
+        <button onclick="closeBet()" style="background:none; color:#888; border:none; margin-top:10px; width:100%;">Cancel</button>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="home.html">🏠<br>Home</a>
+        <a href="activity.html">🏆<br>Activity</a>
+        <a href="promotion.html">📢<br>Promotion</a>
+        <a href="index.html">👤<br>Account</a>
+    </nav>
+
+    <script>
+        let selectedAmount = 10;
+        let selectedColor = "";
+        let isBetPlaced = false;
+
+        function refreshUI() {
+            let phone = localStorage.getItem('currentUser');
+            if(phone) {
+                let user = JSON.parse(localStorage.getItem('user_' + phone));
+                document.getElementById('user-balance').innerText = "₹" + user.balance.toFixed(2);
+            }
+        }
+        window.onload = refreshUI;
+
+        function openBet(col) {
+            selectedColor = col;
+            document.getElementById('pop-title').innerText = "Bet on " + col;
+            document.getElementById('pop-title').style.color = (col==='Green')?'#4caf50':(col==='Red'?'#f44336':'#9c27b0');
+            document.getElementById('bet-popup').style.display = 'block';
+        }
+
+        function setAmt(a) {
+            selectedAmount = a;
+            document.getElementById('display-amt').innerText = "₹" + a;
+        }
+
+        function closeBet() { document.getElementById('bet-popup').style.display = 'none'; }
+
+        function confirmBet() {
+            let phone = localStorage.getItem('currentUser');
+            let user = JSON.parse(localStorage.getItem('user_' + phone));
+            if(user.balance >= selectedAmount) {
+                user.balance -= selectedAmount;
+                localStorage.setItem('user_' + phone, JSON.stringify(user));
+                refreshUI();
+                isBetPlaced = true;
+                alert("Bet confirmed on " + selectedColor);
+                closeBet();
+            } else { alert("Balance low!"); }
+        }
+
+        let time = 60;
+        setInterval(() => {
+            time--;
+            if(time < 0) {
+                if(isBetPlaced) {
+                    let result = Math.random() > 0.5 ? 'Green' : 'Red';
+                    let phone = localStorage.getItem('currentUser');
+                    let user = JSON.parse(localStorage.getItem('user_' + phone));
+                    if(selectedColor === result) {
+                        let win = selectedAmount * 2;
+                        user.balance += win;
+                        alert("🎉 You Won! Result: " + result + ". +₹" + win);
+                    } else { alert("❌ You Lost! Result: " + result); }
+                    localStorage.setItem('user_' + phone, JSON.stringify(user));
+                    refreshUI();
+                    isBetPlaced = false;
+                }
+                time = 60;
+            }
+            document.getElementById('countdown').innerText = `00:${time < 10 ? '0'+time : time}`;
+        }, 1000);
+    </script>
+</body>
+</html>
+    </div>
+
+    <h3>Game History</h3>
+    <table>
+        <thead><tr><th>Period</th><th>Num</th><th>Size</th><th>Color</th></tr></thead>
         <tbody>
             <tr><td>122</td><td>5</td><td>Big</td><td style="color:#4caf50;">Green</td></tr>
             <tr><td>121</td><td>2</td><td>Small</td><td style="color:#f44336;">Red</td></tr>
