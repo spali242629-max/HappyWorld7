@@ -1,106 +1,111 @@
-let selectedAmount = 0;
-let selectedColor = "";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WinGo - HappyWorld</title>
+    <style>
+        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding-bottom: 80px; }
+        .header { display: flex; justify-content: space-between; padding: 15px; background: #161d3a; align-items: center; border-bottom: 1px solid #333; }
+        .game-card { background: #1c244a; margin: 15px; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #3a467d; }
+        .timer { font-size: 45px; font-weight: bold; color: #ffeb3b; margin: 10px 0; }
+        .btn-box { display: flex; justify-content: space-around; margin-top: 20px; }
+        .bet-btn { padding: 12px 25px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; text-transform: uppercase; }
+        
+        /* Popup Styling */
+        #bet-popup { display:none; position:fixed; bottom:0; width:100%; background:#161d3a; border-radius:20px 20px 0 0; padding:20px; box-sizing:border-box; z-index:1000; border-top: 3px solid #ff9800; }
+        .amt-opt { padding:10px; background:#3a467d; color:white; border:none; border-radius:5px; width:22%; font-weight:bold; }
+        
+        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; }
+        .nav-bar a { color: #888; text-decoration: none; font-size: 11px; text-align: center; }
+    </style>
+</head>
+<body>
 
-// Timer Logic (Har minute result aayega)
-let time = 60;
-setInterval(() => {
-    time--;
-    if(time < 0) {
-        time = 60;
-        calculateResult(); // Timer khatam hote hi result nikaalo
-    }
-    let sec = time % 60;
-    document.getElementById('countdown').innerText = `00:${sec < 10 ? '0'+sec : sec}`;
-}, 1000);
+    <div class="header">
+        <a href="home.html" style="color:white; text-decoration:none;">⬅️ Back</a>
+        <div style="font-weight:bold;">WinGo 1Min</div>
+        <div id="user-balance" style="color:#ffeb3b; font-weight:bold;">₹0.00</div>
+    </div>
 
-function calculateResult() {
-    if (selectedColor === "") return; // Agar bet nahi lagi toh kuch mat karo
+    <div class="game-card">
+        <div style="color:#aaa; font-size: 14px;">Period: 20260209123</div>
+        <div class="timer" id="countdown">01:00</div>
+        <div class="btn-box">
+            <button class="bet-btn" style="background:#4caf50;" onclick="openBet('Green')">Green</button>
+            <button class="bet-btn" style="background:#9c27b0;" onclick="openBet('Violet')">Violet</button>
+            <button class="bet-btn" style="background:#f44336;" onclick="openBet('Red')">Red</button>
+        </div>
+    </div>
 
-    // Random Result: 0 = Green, 1 = Red, 2 = Violet
-    let colors = ['Green', 'Red', 'Violet'];
-    let result = colors[Math.floor(Math.random() * colors.length)];
-    
-    let currentMobile = localStorage.getItem('currentUser');
-    let userData = JSON.parse(localStorage.getItem('user_' + currentMobile));
+    <div id="bet-popup">
+        <h3 id="pop-title" style="text-align:center;">Select Amount</h3>
+        <div style="display:flex; justify-content:space-between; margin:20px 0;">
+            <button class="amt-opt" onclick="setAmt(10)">₹10</button>
+            <button class="amt-opt" onclick="setAmt(100)">₹100</button>
+            <button class="amt-opt" onclick="setAmt(500)">₹500</button>
+            <button class="amt-opt" onclick="setAmt(1000)">₹1000</button>
+        </div>
+        <p style="text-align:center;">Bet Amount: <span id="display-amt" style="color:#ffeb3b; font-weight:bold;">₹10</span></p>
+        <button onclick="confirmBet()" style="background:#ff9800; color:white; width:100%; padding:15px; border:none; border-radius:30px; font-weight:bold; font-size:16px;">Confirm Bet</button>
+        <button onclick="closeBet()" style="background:none; color:#888; border:none; margin-top:10px; width:100%;">Cancel</button>
+    </div>
 
-    if (selectedColor === result) {
-        let winAmt = selectedAmount * 2;
-        userData.balance += winAmt;
-        alert("Mubarak ho! Result: " + result + ". Aap ₹" + winAmt + " jeet gaye!");
-    } else {
-        alert("Oh ho! Result: " + result + ". Agli baar try karein.");
-    }
-
-    // Memory aur Screen update karein
-    localStorage.setItem('user_' + currentMobile, JSON.stringify(userData));
-    document.getElementById('user-balance').innerText = "₹" + userData.balance.toFixed(2);
-    
-    // Reset bet for next round
-    selectedColor = "";
-    selectedAmount = 0;
-}
+    <nav class="nav-bar">
+        <a href="home.html">🏠<br>Home</a>
+        <a href="activity.html">🏆<br>Activity</a>
+        <a href="promotion.html">📢<br>Promotion</a>
         <a href="index.html">👤<br>Account</a>
     </nav>
+
     <script>
+        let selectedAmount = 10;
+        let selectedColor = "";
+
         window.onload = function() {
-            let currentMobile = localStorage.getItem('currentUser');
-            if (currentMobile) {
-                let userData = JSON.parse(localStorage.getItem('user_' + currentMobile));
-                document.getElementById('user-balance').innerText = "₹" + userData.balance.toFixed(2);
-            }
+            refreshBalance();
         };
-        // Timer Logic
-        let time = 60;
-        setInterval(() => {
-            time--;
-            if(time < 0) time = 60;
-            let min = Math.floor(time / 60);
-            let sec = time % 60;
-            document.getElementById('countdown').innerText = `0${min}:${sec < 10 ? '0'+sec : sec}`;
-        }, 1000);
-    </script>
-</body>
-</html>
-    <div class="game-buttons">
-        <button class="btn green" onclick="bet('Green')">Green</button>
-        <button class="btn violet" onclick="bet('Violet')">Violet</button>
-        <button class="btn red" onclick="bet('Red')">Red</button>
-    </div>
 
-    <div class="history">
-        <h3 style="text-align:left; padding-left:10px;">Game History</h3>
-        <table class="history-table">
-            <thead>
-                <tr style="background:#1c244a;"><th>Period</th><th>Num</th><th>Size</th><th>Color</th></tr>
-            </thead>
-            <tbody id="history-body">
-                <tr><td>122</td><td>5</td><td>Big</td><td style="color:#4caf50;">Green</td></tr>
-                <tr><td>121</td><td>2</td><td>Small</td><td style="color:#f44336;">Red</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <nav class="bottom-nav">
-    <a href="home.html">🏠<br>Home</a>
-    <a href="activity.html">🏆<br>Activity</a>
-    <div class="go-btn-container"><div class="go-btn">GO</div></div>
-    <a href="#">📢<br>Promotion</a>
-    <a href="index.html">👤<br>Account</a>
-</nav>
-
-
-    <script>
-        let seconds = 60;
-        setInterval(() => {
-            seconds--;
-            if(seconds < 0) seconds = 60;
-            let displaySec = seconds < 10 ? '0'+seconds : seconds;
-            document.getElementById('timer').innerHTML = "00:" + displaySec;
-        }, 1000);
-
-        function bet(color) {
-            alert("Aapne " + color + " par bet lagayi! System connect ho raha hai...");
+        function refreshBalance() {
+            let user = localStorage.getItem('currentUser');
+            if(user) {
+                let data = JSON.parse(localStorage.getItem('user_' + user));
+                document.getElementById('user-balance').innerText = "₹" + data.balance.toFixed(2);
+            }
         }
+
+        function openBet(col) {
+            selectedColor = col;
+            document.getElementById('pop-title').innerText = "Bet on " + col;
+            document.getElementById('pop-title').style.color = col === 'Green' ? '#4caf50' : (col === 'Red' ? '#f44336' : '#9c27b0');
+            document.getElementById('bet-popup').style.display = 'block';
+        }
+
+        function setAmt(a) {
+            selectedAmount = a;
+            document.getElementById('display-amt').innerText = "₹" + a;
+        }
+
+        function closeBet() { document.getElementById('bet-popup').style.display = 'none'; }
+
+        function confirmBet() {
+            let user = localStorage.getItem('currentUser');
+            let data = JSON.parse(localStorage.getItem('user_' + user));
+            if(data.balance >= selectedAmount) {
+                data.balance -= selectedAmount;
+                localStorage.setItem('user_' + user, JSON.stringify(data));
+                refreshBalance();
+                alert("Bet Lag Gayi!");
+                closeBet();
+            } else { alert("Paisa kam hai bhai!"); }
+        }
+
+        // 60 Sec Timer
+        let t = 60;
+        setInterval(() => {
+            t--; if(t < 0) t = 60;
+            document.getElementById('countdown').innerText = `00:${t < 10 ? '0'+t : t}`;
+        }, 1000);
     </script>
 </body>
 </html>
