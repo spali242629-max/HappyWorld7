@@ -1,39 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WinGo - HappyWorld</title>
-    <style>
-        body { background: #0d122b; color: white; font-family: sans-serif; margin: 0; padding: 0; }
-        .header { display: flex; justify-content: space-between; padding: 15px; background: #161d3a; align-items: center; }
-        .game-area { background: #1c244a; margin: 15px; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #3a467d; }
-        .timer { font-size: 40px; font-weight: bold; color: #ffeb3b; }
-        .btn-box { display: flex; justify-content: space-around; margin-top: 20px; }
-        .btn { padding: 15px 30px; border-radius: 10px; border: none; font-weight: bold; color: white; font-size: 16px; cursor: pointer; }
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #161d3a; padding: 10px 0; }
-        .bottom-nav a { color: #888; text-decoration: none; font-size: 11px; text-align: center; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <a href="home.html" style="color:white; text-decoration:none;">⬅️ Back</a>
-        <div>WinGo 1Min</div>
-        <div id="user-balance" style="font-weight:bold; color:#ffeb3b;">₹0.00</div>
-    </div>
-    <div class="game-area">
-        <div style="color:#aaa;">Period: 20260209123</div>
-        <div class="timer" id="countdown">01:00</div>
-        <div class="btn-box">
-            <button class="btn" style="background:#4caf50;">Green</button>
-            <button class="btn" style="background:#9c27b0;">Violet</button>
-            <button class="btn" style="background:#f44336;">Red</button>
-        </div>
-    </div>
-    <nav class="bottom-nav">
-        <a href="home.html">🏠<br>Home</a>
-        <a href="activity.html">🏆<br>Activity</a>
-        <a href="promotion.html">📢<br>Promotion</a>
+let selectedAmount = 0;
+let selectedColor = "";
+
+// Timer Logic (Har minute result aayega)
+let time = 60;
+setInterval(() => {
+    time--;
+    if(time < 0) {
+        time = 60;
+        calculateResult(); // Timer khatam hote hi result nikaalo
+    }
+    let sec = time % 60;
+    document.getElementById('countdown').innerText = `00:${sec < 10 ? '0'+sec : sec}`;
+}, 1000);
+
+function calculateResult() {
+    if (selectedColor === "") return; // Agar bet nahi lagi toh kuch mat karo
+
+    // Random Result: 0 = Green, 1 = Red, 2 = Violet
+    let colors = ['Green', 'Red', 'Violet'];
+    let result = colors[Math.floor(Math.random() * colors.length)];
+    
+    let currentMobile = localStorage.getItem('currentUser');
+    let userData = JSON.parse(localStorage.getItem('user_' + currentMobile));
+
+    if (selectedColor === result) {
+        let winAmt = selectedAmount * 2;
+        userData.balance += winAmt;
+        alert("Mubarak ho! Result: " + result + ". Aap ₹" + winAmt + " jeet gaye!");
+    } else {
+        alert("Oh ho! Result: " + result + ". Agli baar try karein.");
+    }
+
+    // Memory aur Screen update karein
+    localStorage.setItem('user_' + currentMobile, JSON.stringify(userData));
+    document.getElementById('user-balance').innerText = "₹" + userData.balance.toFixed(2);
+    
+    // Reset bet for next round
+    selectedColor = "";
+    selectedAmount = 0;
+}
         <a href="index.html">👤<br>Account</a>
     </nav>
     <script>
