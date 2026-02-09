@@ -3,58 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Happy World</title>
+    <title>HappyWorld - Register</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-</head>
-<body style="text-align: center; padding-top: 50px; font-family: sans-serif;">
-
-    <h2>Create Account</h2>
-    <input type="number" id="mobileNumber" placeholder="Mobile Number" style="padding: 10px; margin: 10px;"><br>
-    <input type="password" id="password" placeholder="Password" style="padding: 10px; margin: 10px;"><br>
-    <button onclick="registerUser()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; cursor: pointer;">Register</button>
-
-    <script>
-        // 1. Aapka Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
-            authDomain: "happy-world-25c08.firebaseapp.com",
-            databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
-            projectId: "happy-world-25c08",
-            storageBucket: "happy-world-25c08.appspot.com",
-            messagingSenderId: "192294282796",
-            appId: "1:192294282796:web:be56e1..."
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        function registerUser() {
-            const mobile = document.getElementById("mobileNumber").value;
-            const pass = document.getElementById("password").value;
-
-            if(mobile == "" || pass == "") {
-                alert("Please fill all details");
-                return;
-            }
-
-            // 2. Data Firebase mein save karna
-            firebase.database().ref('users/' + mobile).set({
-                mobile: mobile,
-                password: pass,
-                balance: 0
-            }, (error) => {
-                if (error) {
-                    alert("Data save nahi hua: " + error);
-                } else {
-                    // 3. Browser ki memory mein save karo (Ye loop rokega!)
-                    localStorage.setItem("userMobile", mobile);
-                    alert("Registration Successful!");
-                    
-                    // 4. Seedhe Game page par bhej do
-                    window.location.href = "home.html";
-                }
-            });
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #8e2de2, #4facfe); /* Purple to Sky Blue Mix */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
         }
-    </script>
-</body>
-</html>
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            box-sizing: border-box;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            background: #00c6ff;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #0072ff;
+            transform: scale(1.02
+                             
