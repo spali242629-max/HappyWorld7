@@ -7,170 +7,104 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #0a1428; /* Dark blue theme */
-      color: #e0e0ff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .container {
-      background: rgba(17, 27, 58, 0.95);
-      border-radius: 20px;
-      padding: 30px 25px;
-      width: 100%;
-      max-width: 380px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      border: 1px solid rgba(0,170,255,0.1);
-    }
-    .back { font-size:1.8rem; color:#a0a0ff; cursor:pointer; margin-bottom:15px; }
-    .logo {
-      text-align:center;
-      font-size:2.2rem;
-      font-weight:700;
-      margin-bottom:25px;
-      background: linear-gradient(90deg, #00aaff, #00ffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing:1px;
-    }
-    h1 { font-size:1.8rem; font-weight:600; text-align:center; margin-bottom:10px; }
-    .subtitle { text-align:center; font-size:0.95rem; color:#a0a0ff; margin-bottom:30px; }
-    .input-group { margin-bottom:20px; }
-    label { display:flex; align-items:center; font-size:0.95rem; margin-bottom:8px; color:#c0c0ff; }
-    .icon { font-size:1.4rem; margin-right:10px; color:#00aaff; }
-    .input-wrapper { position:relative; }
-    .input-icon { position:absolute; left:16px; top:50%; transform:translateY(-50%); font-size:1.3rem; color:#00aaff; }
-    .eye { position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:1.3rem; color:#a0a0ff; cursor:pointer; }
-    input {
-      width:100%;
-      padding:14px 16px 14px 50px;
-      background:#1a2545;
-      border:1px solid #2a3560;
-      border-radius:12px;
-      color:white;
-      font-size:1rem;
-      transition:all 0.3s;
-    }
-    input:focus { outline:none; border-color:#00aaff; box-shadow:0 0 0 3px rgba(0,170,255,0.2); }
-    input.error { border-color:#ff4d4d; }
-    .error-msg { color:#ff4d4d; font-size:0.85rem; margin-top:5px; display:none; }
-    .checkbox-group { display:flex; align-items:center; margin:20px 0; font-size:0.9rem; color:#c0c0ff; }
-    input[type="checkbox"] { width:20px; height:20px; margin-right:10px; accent-color:#00aaff; }
-    a { color:#00ffff; text-decoration:none; }
-    button {
-      width:100%;
-      padding:15px;
-      background:linear-gradient(90deg, #00aaff, #0088cc);
-      color:white;
-      border:none;
-      border-radius:12px;
-      font-size:1.1rem;
-      font-weight:600;
-      cursor:pointer;
-      transition:all 0.3s;
-      opacity:0.5;
-      pointer-events:none;
-    }
+    body { font-family:'Poppins',sans-serif; background:#0f172a; color:#e2e8f0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px; }
+    .container { width:100%; max-width:420px; }
+    .back { font-size:28px; color:#94a3b8; margin-bottom:12px; cursor:pointer; }
+    .title { text-align:center; font-size:36px; font-weight:700; background:linear-gradient(90deg,#06b6d4,#a5f3fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:16px; letter-spacing:1px; }
+    h1 { font-size:28px; font-weight:600; text-align:center; margin-bottom:8px; }
+    .subtitle { text-align:center; font-size:15px; color:#94a3b8; margin-bottom:32px; line-height:1.4; }
+    .label { font-size:15px; color:#cbd5e1; margin:20px 0 8px; display:flex; align-items:center; font-weight:500; }
+    .icon-bg { width:40px; height:40px; background:#1e293b; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:12px; font-size:22px; }
+    .input-wrapper { position:relative; background:#1e293b; border-radius:12px; border:1px solid #334155; overflow:hidden; }
+    input { width:100%; padding:16px 16px 16px 60px; background:transparent; border:none; color:#f1f5f9; font-size:16px; }
+    input:focus { outline:none; border-color:#06b6d4; }
+    .eye { position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:22px; color:#94a3b8; cursor:pointer; }
+    .checkbox-group { display:flex; align-items:center; margin:24px 0 32px; font-size:15px; color:#cbd5e1; cursor:pointer; }
+    .checkbox { width:24px; height:24px; border:2px solid #64748b; border-radius:50%; margin-right:12px; flex-shrink:0; transition:all 0.2s; }
+    .checkbox.checked { background:#06b6d4; border-color:#06b6d4; }
+    .checkbox.checked::after { content:''; position:absolute; top:6px; left:6px; width:10px; height:10px; background:white; border-radius:50%; }
+    a { color:#f87171; text-decoration:none; }
+    button { width:100%; padding:16px; background:linear-gradient(90deg,#06b6d4,#22d3ee); color:white; border:none; border-radius:999px; font-size:17px; font-weight:600; cursor:pointer; opacity:0.5; pointer-events:none; transition:opacity 0.3s; }
     button.active { opacity:1; pointer-events:auto; }
-    button:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,170,255,0.4); }
-    .login-link { text-align:center; margin-top:20px; font-size:0.95rem; color:#a0a0ff; }
-    .login-link span { color:#00ffff; cursor:pointer; }
+    .login { text-align:center; margin-top:16px; font-size:15px; color:#94a3b8; }
+    .login span { color:#22d3ee; cursor:pointer; }
+    .error { color:#f87171; font-size:13px; text-align:center; margin-top:6px; display:none; }
   </style>
 </head>
 <body>
-
   <div class="container">
     <div class="back">&lt;</div>
     
-    <div class="logo">HappyWorld</div>
+    <div class="title">HappyWorld</div>
     
     <h1>Register</h1>
     <p class="subtitle">Please register by phone number or email</p>
     
-    <div class="input-group">
-      <label><span class="icon">📱</span> Register your phone</label>
-      <div class="input-wrapper">
-        <span class="input-icon">📱</span>
-        <input type="tel" placeholder="Please enter the phone number" value="+91 " />
-      </div>
+    <div class="label"><div class="icon-bg">📱</div> Register your phone</div>
+    <div class="input-wrapper">
+      <input type="tel" value="+91 " placeholder="+91 " />
     </div>
     
-    <div class="input-group">
-      <label><span class="icon">🔒</span> Set password</label>
-      <div class="input-wrapper">
-        <span class="input-icon">🔒</span>
-        <input type="password" placeholder="Set password" id="pass1" oninput="checkPasswords()" />
-        <span class="eye" onclick="togglePass('pass1')">👁️</span>
-      </div>
+    <div class="label"><div class="icon-bg">🔒</div> Set password</div>
+    <div class="input-wrapper">
+      <input type="password" id="p1" placeholder="Set password" oninput="check()" />
+      <span class="eye" onclick="tog('p1')">👁️</span>
     </div>
     
-    <div class="input-group">
-      <label><span class="icon">🔒</span> Confirm password</label>
-      <div class="input-wrapper">
-        <span class="input-icon">🔒</span>
-        <input type="password" placeholder="Confirm password" id="pass2" oninput="checkPasswords()" />
-        <span class="eye" onclick="togglePass('pass2')">👁️</span>
-      </div>
-      <div class="error-msg" id="passError">Passwords do not match!</div>
+    <div class="label"><div class="icon-bg">🔒</div> Confirm password</div>
+    <div class="input-wrapper">
+      <input type="password" id="p2" placeholder="Confirm password" oninput="check()" />
+      <span class="eye" onclick="tog('p2')">👁️</span>
+    </div>
+    <div id="err" class="error">Passwords do not match</div>
+    
+    <div class="label"><div class="icon-bg">🎟️</div> Invite code</div>
+    <div class="input-wrapper">
+      <input type="text" placeholder="Please enter the invitation code" />
     </div>
     
-    <div class="input-group">
-      <label><span class="icon">🎟️</span> Invite code</label>
-      <div class="input-wrapper">
-        <span class="input-icon">🎟️</span>
-        <input type="text" placeholder="Please enter the invitation code" />
-      </div>
+    <div class="checkbox-group" onclick="chk()">
+      <div id="cb" class="checkbox"></div>
+      I have read and agree <a href="#">[Privacy Agreement]</a>
     </div>
     
-    <div class="checkbox-group">
-      <input type="checkbox" id="agree" onchange="checkAgree()" />
-      <label for="agree">I have read and agree <a href="#">[Privacy Agreement]</a></label>
-    </div>
+    <button id="reg">Register</button>
     
-    <button id="regBtn">Register</button>
-    
-    <div class="login-link">
+    <div class="login">
       I have an account <span>Login</span>
     </div>
   </div>
 
   <script>
-    function togglePass(id) {
-      const input = document.getElementById(id);
-      input.type = input.type === 'password' ? 'text' : 'password';
+    let agree = false;
+    function chk() {
+      agree = !agree;
+      document.getElementById('cb').classList.toggle('checked', agree);
+      check();
     }
-    
-    function checkAgree() {
-      const agree = document.getElementById('agree').checked;
-      const btn = document.getElementById('regBtn');
-      btn.classList.toggle('active', agree);
+    function tog(id) {
+      let el = document.getElementById(id);
+      el.type = el.type === 'password' ? 'text' : 'password';
     }
-    
-    function checkPasswords() {
-      const pass1 = document.getElementById('pass1').value;
-      const pass2 = document.getElementById('pass2').value;
-      const error = document.getElementById('passError');
-      const inputs = [document.getElementById('pass1'), document.getElementById('pass2')];
-      
-      if (pass1 && pass2 && pass1 !== pass2) {
-        inputs.forEach(inp => inp.classList.add('error'));
-        error.style.display = 'block';
-      } else {
-        inputs.forEach(inp => inp.classList.remove('error'));
-        error.style.display = 'none';
+    function check() {
+      let p1 = document.getElementById('p1').value;
+      let p2 = document.getElementById('p2').value;
+      let err = document.getElementById('err');
+      let btn = document.getElementById('reg');
+      let valid = agree;
+      if (p1 && p2) {
+        if (p1 !== p2) {
+          err.style.display = 'block';
+          valid = false;
+        } else {
+          err.style.display = 'none';
+        }
       }
+      btn.classList.toggle('active', valid);
     }
-    
-    // Initial check
-    checkAgree();
+    check();
   </script>
-
 </body>
 </html>
