@@ -6,119 +6,138 @@
     <title>HappyWorld | Register</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    
     <style>
-        :root { 
-            --bg-color: #101524; /* Deep Dark Blue from your photo */
-            --input-bg: #222a42; 
-            --text-blue: #40c4ff; 
-            --btn-blue: #2994ff;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         
         body { 
-            background-color: var(--bg-color); 
-            color: white; 
+            /* Tera bheja hua background image */
+            background: url('1000129556.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            color: white;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* HappyWorld Header Style */
-        .header { 
-            padding: 40px 0 20px; 
-            text-align: center; 
-        }
-        .header h1 { 
-            color: var(--text-blue); 
-            font-size: 38px; 
-            font-weight: 900; 
-            letter-spacing: -1px;
-            text-shadow: 0 0 10px rgba(64, 196, 255, 0.3);
+        .header-logo {
+            margin-top: 50px;
+            width: 250px; /* Happy World Logo */
         }
 
-        .container { padding: 0 25px; }
-        .title { font-size: 22px; font-weight: bold; margin-bottom: 5px; text-align: left; }
-        .subtitle { font-size: 13px; color: #7c839d; margin-bottom: 30px; }
+        .register-container {
+            width: 90%;
+            margin-top: 30px;
+        }
 
-        .form-label { font-size: 14px; margin-bottom: 10px; display: block; color: #fff; }
+        .title { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+        .subtitle { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 30px; }
 
-        /* Input Box Style */
+        .input-label { font-size: 14px; margin-bottom: 10px; display: block; }
+
+        /* Tiranga Style Input Box */
         .input-group {
-            background: var(--input-bg);
+            background: rgba(43, 50, 77, 0.9);
             border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 22px;
+            padding: 15px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
+
         .input-group input {
             background: transparent;
             border: none;
             color: white;
             width: 100%;
-            font-size: 16px;
             outline: none;
+            font-size: 16px;
             margin-left: 10px;
         }
-        .input-group input::placeholder { color: #565e79; }
-        .country-code { color: #fff; padding-right: 12px; border-right: 1px solid #444; font-weight: 600; }
+
+        .country-code {
+            padding-right: 10px;
+            border-right: 1px solid #555;
+            font-weight: bold;
+        }
 
         /* Register Button */
-        .btn-register {
+        .reg-btn {
             width: 100%;
-            background: var(--btn-blue);
+            background: #2994ff;
             color: white;
             border: none;
             padding: 16px;
             border-radius: 30px;
             font-size: 18px;
             font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(41, 148, 255, 0.3);
-        }
-
-        .btn-login-outline {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--btn-blue);
-            color: var(--btn-blue);
-            padding: 14px;
-            border-radius: 30px;
             margin-top: 20px;
-            font-size: 15px;
-            font-weight: 500;
+            cursor: pointer;
         }
 
-        .agreement { font-size: 12px; color: #7c839d; margin-top: 15px; text-align: left; }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #2994ff;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>HappyWorld</h1>
-    </div>
+    <img src="1000129565.jpg" alt="HappyWorld" class="header-logo">
 
-    <div class="container">
+    <div class="register-container">
         <div class="title">Register</div>
         <div class="subtitle">Please register by phone number or email</div>
 
-        <span class="form-label">Register your phone</span>
+        <span class="input-label">Register your phone</span>
         <div class="input-group">
             <span class="country-code">+91</span>
             <input type="number" id="phone" placeholder="Please enter the phone number">
         </div>
 
-        <span class="form-label">Set password</span>
+        <span class="input-label">Set password</span>
         <div class="input-group">
             <input type="password" id="pass" placeholder="Set password">
         </div>
 
-        <span class="form-label">Confirm password</span>
+        <span class="input-label">Confirm password</span>
         <div class="input-group">
             <input type="password" id="confirmPass" placeholder="Confirm password">
         </div>
 
-        <span class="form-label">Invite code</span>
-        <div class="input-group">
-            
+        <button class="reg-btn" onclick="registerUser()">Register</button>
+        
+        <div class="login-link">
+            I have an account <span style="font-weight:bold">Login</span>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
+            authDomain: "happy-world-25c08.firebaseapp.com",
+            databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
+            projectId: "happy-world-25c08"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        function registerUser() {
+            const p = document.getElementById("phone").value;
+            const s = document.getElementById("pass").value;
+            const c = document.getElementById("confirmPass").value;
+
+            if(p.length < 10) return alert("Number sahi dalo!");
+            if(s !== c) return alert("Password match nahi kar raha!");
+
+            firebase.database().ref('users/' + p).set({
+                mobile: p, password: s, balance: 0
+            }).then(() => {
+                window.location.href = "home.html";
+            }).catch(e => alert(e.message));
+        }
+    </script>
+</body>
+</html>
