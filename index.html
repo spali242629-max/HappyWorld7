@@ -1,110 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HappyWorld - Register</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'Poppins',sans-serif; background:#0f172a; color:#e2e8f0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px; }
-    .container { width:100%; max-width:420px; }
-    .back { font-size:28px; color:#94a3b8; margin-bottom:12px; cursor:pointer; }
-    .title { text-align:center; font-size:36px; font-weight:700; background:linear-gradient(90deg,#06b6d4,#a5f3fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:16px; letter-spacing:1px; }
-    h1 { font-size:28px; font-weight:600; text-align:center; margin-bottom:8px; }
-    .subtitle { text-align:center; font-size:15px; color:#94a3b8; margin-bottom:32px; line-height:1.4; }
-    .label { font-size:15px; color:#cbd5e1; margin:20px 0 8px; display:flex; align-items:center; font-weight:500; }
-    .icon-bg { width:40px; height:40px; background:#1e293b; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:12px; font-size:22px; }
-    .input-wrapper { position:relative; background:#1e293b; border-radius:12px; border:1px solid #334155; overflow:hidden; }
-    input { width:100%; padding:16px 16px 16px 60px; background:transparent; border:none; color:#f1f5f9; font-size:16px; }
-    input:focus { outline:none; border-color:#06b6d4; }
-    .eye { position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:22px; color:#94a3b8; cursor:pointer; }
-    .checkbox-group { display:flex; align-items:center; margin:24px 0 32px; font-size:15px; color:#cbd5e1; cursor:pointer; }
-    .checkbox { width:24px; height:24px; border:2px solid #64748b; border-radius:50%; margin-right:12px; flex-shrink:0; transition:all 0.2s; }
-    .checkbox.checked { background:#06b6d4; border-color:#06b6d4; }
-    .checkbox.checked::after { content:''; position:absolute; top:6px; left:6px; width:10px; height:10px; background:white; border-radius:50%; }
-    a { color:#f87171; text-decoration:none; }
-    button { width:100%; padding:16px; background:linear-gradient(90deg,#06b6d4,#22d3ee); color:white; border:none; border-radius:999px; font-size:17px; font-weight:600; cursor:pointer; opacity:0.5; pointer-events:none; transition:opacity 0.3s; }
-    button.active { opacity:1; pointer-events:auto; }
-    .login { text-align:center; margin-top:16px; font-size:15px; color:#94a3b8; }
-    .login span { color:#22d3ee; cursor:pointer; }
-    .error { color:#f87171; font-size:13px; text-align:center; margin-top:6px; display:none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HappyWorld | Register</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
+    <style>
+        :root { --tiranga-blue: #242a46; --btn-blue: #2994ff; --text-gray: #7c839d; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        
+        body { background-color: #1a1d31; color: white; padding-bottom: 30px; }
+
+        /* Header Style */
+        .nav-header { padding: 15px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .logo-text { font-size: 24px; font-weight: bold; color: #40c4ff; letter-spacing: 1px; }
+        
+        .register-title { padding: 20px; font-size: 20px; font-weight: bold; }
+        .sub-title { padding: 0 20px 20px; color: var(--text-gray); font-size: 13px; }
+
+        /* Input Styles */
+        .input-section { padding: 0 20px; margin-bottom: 20px; }
+        .label-row { display: flex; align-items: center; margin-bottom: 10px; font-size: 14px; }
+        .label-row img { width: 18px; margin-right: 10px; }
+        
+        .input-box {
+            background: #2b324d; border-radius: 8px; display: flex; align-items: center;
+            padding: 12px 15px; border: 1px solid transparent;
+        }
+        .input-box:focus-within { border-color: var(--btn-blue); }
+        .input-box input {
+            background: transparent; border: none; color: white; width: 100%;
+            font-size: 15px; outline: none; margin-left: 5px;
+        }
+        .country-code { color: white; border-right: 1px solid #444; padding-right: 10px; margin-right: 10px; font-weight: bold; }
+
+        /* Buttons */
+        .register-btn {
+            width: 90%; margin: 20px 5%; padding: 15px;
+            background: var(--btn-blue); border: none; border-radius: 25px;
+            color: white; font-size: 16px; font-weight: bold; cursor: pointer;
+        }
+        .login-btn {
+            width: 90%; margin: 0 5%; padding: 12px;
+            background: transparent; border: 1px solid var(--btn-blue);
+            color: var(--btn-blue); border-radius: 25px; font-size: 14px;
+        }
+
+        .agreement { display: flex; align-items: center; padding: 10px 20px; font-size: 12px; color: var(--text-gray); }
+        .agreement span { color: #ff4d4d; margin-left: 5px; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="back">&lt;</div>
-    
-    <div class="title">HappyWorld</div>
-    
-    <h1>Register</h1>
-    <p class="subtitle">Please register by phone number or email</p>
-    
-    <div class="label"><div class="icon-bg">📱</div> Register your phone</div>
-    <div class="input-wrapper">
-      <input type="tel" value="+91 " placeholder="+91 " />
-    </div>
-    
-    <div class="label"><div class="icon-bg">🔒</div> Set password</div>
-    <div class="input-wrapper">
-      <input type="password" id="p1" placeholder="Set password" oninput="check()" />
-      <span class="eye" onclick="tog('p1')">👁️</span>
-    </div>
-    
-    <div class="label"><div class="icon-bg">🔒</div> Confirm password</div>
-    <div class="input-wrapper">
-      <input type="password" id="p2" placeholder="Confirm password" oninput="check()" />
-      <span class="eye" onclick="tog('p2')">👁️</span>
-    </div>
-    <div id="err" class="error">Passwords do not match</div>
-    
-    <div class="label"><div class="icon-bg">🎟️</div> Invite code</div>
-    <div class="input-wrapper">
-      <input type="text" placeholder="Please enter the invitation code" />
-    </div>
-    
-    <div class="checkbox-group" onclick="chk()">
-      <div id="cb" class="checkbox"></div>
-      I have read and agree <a href="#">[Privacy Agreement]</a>
-    </div>
-    
-    <button id="reg">Register</button>
-    
-    <div class="login">
-      I have an account <span>Login</span>
-    </div>
-  </div>
 
-  <script>
-    let agree = false;
-    function chk() {
-      agree = !agree;
-      document.getElementById('cb').classList.toggle('checked', agree);
-      check();
+    <div class="nav-header">
+        <div class="logo-text">HappyWorld</div>
+    </div>
+
+    <div class="register-title">Register</div>
+    <div class="sub-title">Please register by phone number or email</div>
+
+    <div class="input-section">
+        <div class="label-row">Register your phone</div>
+        <div class="input-box">
+            <span class="country-code">+91</span>
+            <input type="number" id="phone" placeholder="Please enter the phone number">
+        </div>
+    </div>
+
+    <div class="input-section">
+        <div class="label-row">Set password</div>
+        <div class="input-box">
+            <input type="password" id="pass" placeholder="Set password">
+        </div>
+    </div>
+
+    <div class="input-section">
+        <div class="label-row">Confirm password</div>
+        <div class="input-box">
+            <input type="password" id="confirmPass" placeholder="Confirm password">
+        </div>
+    </div>
+
+    <div class="input-section">
+        <div class="label-row">Invite code</div>
+        <div class="input-box">
+            <input type="text" id="invite" placeholder="Please enter the invitation code">
+        </div>
+    </div>
+
+    <div class="agreement">
+        <input type="checkbox" checked style="margin-right: 8px;">
+        I have read and agree <span>【Privacy Agreement】</span>
+    </div>
+
+    <button class="register-btn" onclick="handleRegister()">Register</button>
+    <button class="login-btn">I have an account <span style="font-weight:bold">Login</span></button>
+
+<script>
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
+        authDomain: "happy-world-25c08.firebaseapp.com",
+        databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
+        projectId: "happy-world-25c08",
+        storageBucket: "happy-world-25c08.appspot.com",
+        messagingSenderId: "192294282796",
+        appId: "1:192294282796:web:be56e1..."
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function handleRegister() {
+        const phone = document.getElementById("phone").value;
+        const pass = document.getElementById("pass").value;
+        const cPass = document.getElementById("confirmPass").value;
+
+        if (phone.length < 10) return alert("Bhai, number sahi dalo!");
+        if (pass !== cPass) return alert("Passwords match nahi kar rahe!");
+
+        // Storing to Firebase
+        firebase.database().ref('users/' + phone).set({
+            mobile: phone,
+            password: pass,
+            balance: 0
+        }).then(() => {
+            localStorage.setItem("userMobile", phone);
+            window.location.href = "home.html"; // Redirect to home
+        }).catch(err => alert("Error: " + err.message));
     }
-    function tog(id) {
-      let el = document.getElementById(id);
-      el.type = el.type === 'password' ? 'text' : 'password';
-    }
-    function check() {
-      let p1 = document.getElementById('p1').value;
-      let p2 = document.getElementById('p2').value;
-      let err = document.getElementById('err');
-      let btn = document.getElementById('reg');
-      let valid = agree;
-      if (p1 && p2) {
-        if (p1 !== p2) {
-          err.style.display = 'block';
-          valid = false;
-        } else {
-          err.style.display = 'none';
-        }
-      }
-      btn.classList.toggle('active', valid);
-    }
-    check();
-  </script>
+</script>
 </body>
 </html>
