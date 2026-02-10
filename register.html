@@ -2,54 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HappyWorld - Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HappyWorld | Register</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
-        body {
-            margin: 0; font-family: sans-serif;
-            background: linear-gradient(180deg, #8e2de2 0%, #4facfe 100%); /* Purple to Sky Blue */
-            height: 100vh; display: flex; justify-content: center; align-items: center;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #f5f5f5; color: #333; }
+
+        /* Top Header - Branded Blue */
+        .header {
+            background: #2b32b2; height: 180px; width: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-bottom-left-radius: 50px; border-bottom-right-radius: 50px;
         }
-        .register-card {
-            width: 90%; max-width: 380px; background: rgba(255,255,255,0.1);
-            padding: 30px; border-radius: 20px; backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; color: white;
+        .header h1 { color: #fff; font-size: 28px; letter-spacing: 1px; text-transform: uppercase; }
+        .header p { color: rgba(255,255,255,0.8); font-size: 12px; margin-top: 5px; }
+
+        /* Register Card */
+        .main-card {
+            margin: -50px 20px 20px; background: #fff; padding: 30px 20px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        h1 { font-size: 35px; margin-bottom: 5px; font-weight: bold; }
-        p { font-size: 14px; opacity: 0.8; margin-bottom: 25px; }
-        .input-box {
-            width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px;
-            border: none; outline: none; background: white; color: #333; box-sizing: border-box;
+
+        .input-box { margin-bottom: 20px; }
+        .input-box label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #666; }
+        .input-box input {
+            width: 100%; padding: 15px; background: #f9f9f9; border: 1px solid #eee;
+            border-radius: 10px; font-size: 16px; outline: none;
         }
-        .reg-btn {
-            width: 100%; padding: 15px; margin-top: 20px; border-radius: 30px;
-            border: none; background: #00c6ff; color: white; font-weight: bold; font-size: 16px; cursor: pointer;
+        .input-box input:focus { border-color: #2b32b2; background: #fff; }
+
+        .btn-register {
+            width: 100%; padding: 16px; background: #2b32b2; color: #fff;
+            border: none; border-radius: 12px; font-size: 16px; font-weight: 700;
+            margin-top: 10px; cursor: pointer;
         }
-        .footer { margin-top: 15px; font-size: 13px; }
-        .footer a { color: #fff; text-decoration: underline; }
+
+        .login-link { text-align: center; margin-top: 25px; font-size: 14px; color: #888; }
+        .login-link a { color: #2b32b2; text-decoration: none; font-weight: 700; }
     </style>
 </head>
 <body>
 
-<div class="register-card">
-    <h1>HappyWorld</h1>
-    <p>Please register by phone number</p>
-    
-    <input type="number" id="mobile" placeholder="Phone number" class="input-box">
-    <input type="password" id="pass" placeholder="Set password" class="input-box">
-    <input type="text" id="invite" placeholder="Invite code" class="input-box">
-
-    <button class="reg-btn" onclick="doRegister()">Register</button>
-
-    <div class="footer">
-        I have an account <a href="login.html">Login</a>
+    <div class="header">
+        <h1>HappyWorld</h1>
+        <p>Official Registration Portal</p>
     </div>
-</div>
+
+    <div class="main-card">
+        <div class="input-box">
+            <label>Mobile Number</label>
+            <input type="number" id="rm" placeholder="Enter 10 digit number">
+        </div>
+        <div class="input-box">
+            <label>Set Password</label>
+            <input type="password" id="rp" placeholder="Enter password">
+        </div>
+        <div class="input-box">
+            <label>Invite Code</label>
+            <input type="text" id="ri" placeholder="Enter referral code">
+        </div>
+
+        <button class="btn-register" onclick="register()">REGISTER NOW</button>
+        
+        <div class="login-link">
+            Already have an account? <a href="login.html">Login</a>
+        </div>
+    </div>
 
 <script>
-    // Tera Firebase Config
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
         authDomain: "happy-world-25c08.firebaseapp.com",
@@ -61,19 +84,17 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-    function doRegister() {
-        const m = document.getElementById("mobile").value;
-        const p = document.getElementById("pass").value;
-
-        if(m.length < 10) { alert("Sahi number dalo!"); return; }
+    function register() {
+        const m = document.getElementById("rm").value;
+        const p = document.getElementById("rp").value;
+        if(m.length < 10) return alert("Sahi number dalo bhai!");
 
         firebase.database().ref('users/' + m).set({
             mobile: m, password: p, balance: 0
         }).then(() => {
-            localStorage.setItem("userMobile", m); // Loop rokne ke liye
-            alert("Registration Successful!");
+            localStorage.setItem("userMobile", m);
             window.location.href = "home.html";
-        }).catch(err => alert(err));
+        });
     }
 </script>
 </body>
