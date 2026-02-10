@@ -1,108 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HappyWorld | Dimension 11</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    <style>
-        :root { --base-purple: #1a0b2e; --shadow-dark: #0f061a; --shadow-light: #251042; --gold: #ffd700; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-        
-        body { 
-            background: var(--base-purple); 
-            height: 100vh; display: flex; justify-content: center; align-items: center;
-        }
-
-        .phone-frame {
-            width: 90%; max-width: 380px; padding: 40px 25px;
-            background: var(--base-purple);
-            border-radius: 50px;
-            box-shadow: 20px 20px 60px var(--shadow-dark), -20px -20px 60px var(--shadow-light);
-            text-align: center;
-        }
-
-        .logo-area h1 {
-            font-size: 32px; font-weight: 900; color: var(--gold);
-            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .neo-input-group { margin-bottom: 30px; }
-        .neo-input {
-            width: 100%; padding: 18px; background: var(--base-purple);
-            border: none; border-radius: 15px; color: #fff; font-size: 16px;
-            box-shadow: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
-            outline: none; transition: 0.3s;
-        }
-        .neo-input:focus { box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light); color: var(--gold); }
-
-        .btn-11 {
-            width: 100%; padding: 20px; margin-top: 10px;
-            background: var(--base-purple); border: none; border-radius: 15px;
-            color: var(--gold); font-size: 18px; font-weight: 800;
-            box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
-            cursor: pointer; transition: 0.2s; text-transform: uppercase;
-        }
-        .btn-11:active {
-            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
-            transform: scale(0.98);
-        }
-
-        .footer { margin-top: 30px; font-size: 13px; color: #6e5a8d; }
-        .footer a { color: var(--gold); text-decoration: none; font-weight: 700; margin-left: 5px; }
-    </style>
-</head>
-<body>
-
-    <div class="phone-frame">
-        <div class="logo-area">
-            <h1>HappyWorld</h1>
-        </div>
-
-        <div class="neo-input-group">
-            <input type="number" id="rm" class="neo-input" placeholder="Mobile Number">
-        </div>
-        <div class="neo-input-group">
-            <input type="password" id="rp" class="neo-input" placeholder="Security Password">
-        </div>
-        <div class="neo-input-group">
-            <input type="text" id="ri" class="neo-input" placeholder="Invite Code">
-        </div>
-
-        <button class="btn-11" onclick="register()">Sync Account</button>
-        
-        <div class="footer">
-            Already in? <a href="login.html">Login Now</a>
-        </div>
-    </div>
-
-<script>
-    // Firebase Config (Tera apna master config)
-    const firebaseConfig = {
-        apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
-        authDomain: "happy-world-25c08.firebaseapp.com",
-        databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
-        projectId: "happy-world-25c08",
-        storageBucket: "happy-world-25c08.appspot.com",
-        messagingSenderId: "192294282796",
-        appId: "1:192294282796:web:be56e1..."
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    function register() {
-        const m = document.getElementById("rm").value;
-        const p = document.getElementById("rp").value;
-        if(m.length < 10) return;
-
-        firebase.database().ref('users/' + m).set({
-            mobile: m, password: p, balance: 0
-        }).then(() => {
-            localStorage.setItem("userMobile", m);
-            window.location.href = "home.html";
-        });
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HappyWorld - Register</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-</script>
-</body>
-</html>
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0a1428; /* Dark blue theme like Tiranga */
+      color: #e0e0ff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: #111b3a; /* Slightly lighter dark blue */
+      border-radius: 20px;
+      padding: 30px 25px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    
+    .back {
+      font-size: 1.8rem;
+      color: #a0a0ff;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+    
+    .logo {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      background: linear-gradient(90deg, #00aaff, #00ffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #a0a0ff;
+      margin-bottom: 30px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      color: #c0c0ff;
+    }
+    
+    .icon {
+      font-size: 1.4rem;
+      margin-right: 10px;
+      color: #00aaff;
+    }
+    
+    input {
+      width: 100%;
+      padding: 14px 16px 14px 50px;
+      background: #1a2545;
+      border: 1px solid #2a3560;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #00aaff;
+      box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.2);
+    }
+    
+    .input-wrapper {
+      position: relative;
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.3rem;
+      color: #00aaff;
+    }
+    
+    .eye {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.3rem;
+      color: #a0a0ff;
+      cursor: pointer;
+    }
+    
+    .invite {
+      margin-top: 10px;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      font-size: 0.9rem;
+      color: #c0c0ff;
+    }
+    
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      accent-color: #00aaff;
+    }
+    
+    a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+    
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(90deg, #00aaff, #0088cc);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    
+    button.active {
+      opacity: 1;
+      pointer-events: auto
