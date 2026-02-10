@@ -1,45 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy World - Tiranga Games Style</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HappyWorld - Register</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0a1428; /* Dark blue theme */
+      color: #e0e0ff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: rgba(17, 27, 58, 0.95);
+      border-radius: 20px;
+      padding: 30px 25px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border: 1px solid rgba(0,170,255,0.1);
+    }
+    .back { font-size:1.8rem; color:#a0a0ff; cursor:pointer; margin-bottom:15px; }
+    .logo {
+      text-align:center;
+      font-size:2.2rem;
+      font-weight:700;
+      margin-bottom:25px;
+      background: linear-gradient(90deg, #00aaff, #00ffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing:1px;
+    }
+    h1 { font-size:1.8rem; font-weight:600; text-align:center; margin-bottom:10px; }
+    .subtitle { text-align:center; font-size:0.95rem; color:#a0a0ff; margin-bottom:30px; }
+    .input-group { margin-bottom:20px; }
+    label { display:flex; align-items:center; font-size:0.95rem; margin-bottom:8px; color:#c0c0ff; }
+    .icon { font-size:1.4rem; margin-right:10px; color:#00aaff; }
+    .input-wrapper { position:relative; }
+    .input-icon { position:absolute; left:16px; top:50%; transform:translateY(-50%); font-size:1.3rem; color:#00aaff; }
+    .eye { position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:1.3rem; color:#a0a0ff; cursor:pointer; }
+    input {
+      width:100%;
+      padding:14px 16px 14px 50px;
+      background:#1a2545;
+      border:1px solid #2a3560;
+      border-radius:12px;
+      color:white;
+      font-size:1rem;
+      transition:all 0.3s;
+    }
+    input:focus { outline:none; border-color:#00aaff; box-shadow:0 0 0 3px rgba(0,170,255,0.2); }
+    input.error { border-color:#ff4d4d; }
+    .error-msg { color:#ff4d4d; font-size:0.85rem; margin-top:5px; display:none; }
+    .checkbox-group { display:flex; align-items:center; margin:20px 0; font-size:0.9rem; color:#c0c0ff; }
+    input[type="checkbox"] { width:20px; height:20px; margin-right:10px; accent-color:#00aaff; }
+    a { color:#00ffff; text-decoration:none; }
+    button {
+      width:100%;
+      padding:15px;
+      background:linear-gradient(90deg, #00aaff, #0088cc);
+      color:white;
+      border:none;
+      border-radius:12px;
+      font-size:1.1rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:all 0.3s;
+      opacity:0.5;
+      pointer-events:none;
+    }
+    button.active { opacity:1; pointer-events:auto; }
+    button:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,170,255,0.4); }
+    .login-link { text-align:center; margin-top:20px; font-size:0.95rem; color:#a0a0ff; }
+    .login-link span { color:#00ffff; cursor:pointer; }
+  </style>
 </head>
-<body style="margin:0; padding:0; background:#f5f5f5; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; justify-content: center; align-items: center;">
+<body>
 
-    <div id="loading">
-        <h2 style="color: #ff9933;">Happy World</h2>
-        <p>Checking login status...</p>
+  <div class="container">
+    <div class="back">&lt;</div>
+    
+    <div class="logo">HappyWorld</div>
+    
+    <h1>Register</h1>
+    <p class="subtitle">Please register by phone number or email</p>
+    
+    <div class="input-group">
+      <label><span class="icon">📱</span> Register your phone</label>
+      <div class="input-wrapper">
+        <span class="input-icon">📱</span>
+        <input type="tel" placeholder="Please enter the phone number" value="+91 " />
+      </div>
     </div>
+    
+    <div class="input-group">
+      <label><span class="icon">🔒</span> Set password</label>
+      <div class="input-wrapper">
+        <span class="input-icon">🔒</span>
+        <input type="password" placeholder="Set password" id="pass1" oninput="checkPasswords()" />
+        <span class="eye" onclick="togglePass('pass1')">👁️</span>
+      </div>
+    </div>
+    
+    <div class="input-group">
+      <label><span class="icon">🔒</span> Confirm password</label>
+      <div class="input-wrapper">
+        <span class="input-icon">🔒</span>
+        <input type="password" placeholder="Confirm password" id="pass2" oninput="checkPasswords()" />
+        <span class="eye" onclick="togglePass('pass2')">👁️</span>
+      </div>
+      <div class="error-msg" id="passError">Passwords do not match!</div>
+    </div>
+    
+    <div class="input-group">
+      <label><span class="icon">🎟️</span> Invite code</label>
+      <div class="input-wrapper">
+        <span class="input-icon">🎟️</span>
+        <input type="text" placeholder="Please enter the invitation code" />
+      </div>
+    </div>
+    
+    <div class="checkbox-group">
+      <input type="checkbox" id="agree" onchange="checkAgree()" />
+      <label for="agree">I have read and agree <a href="#">[Privacy Agreement]</a></label>
+    </div>
+    
+    <button id="regBtn">Register</button>
+    
+    <div class="login-link">
+      I have an account <span>Login</span>
+    </div>
+  </div>
 
-    <script>
-        // 1. Aapka Firebase Config (Jo aapne pehle copy kiya tha)
-        const firebaseConfig = {
-            apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
-            authDomain: "happy-world-25c08.firebaseapp.com",
-            databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
-            projectId: "happy-world-25c08",
-            storageBucket: "happy-world-25c08.appspot.com",
-            messagingSenderId: "192294282796",
-            appId: "1:192294282796:web:be56e1..."
-        };
+  <script>
+    function togglePass(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+    
+    function checkAgree() {
+      const agree = document.getElementById('agree').checked;
+      const btn = document.getElementById('regBtn');
+      btn.classList.toggle('active', agree);
+    }
+    
+    function checkPasswords() {
+      const pass1 = document.getElementById('pass1').value;
+      const pass2 = document.getElementById('pass2').value;
+      const error = document.getElementById('passError');
+      const inputs = [document.getElementById('pass1'), document.getElementById('pass2')];
+      
+      if (pass1 && pass2 && pass1 !== pass2) {
+        inputs.forEach(inp => inp.classList.add('error'));
+        error.style.display = 'block';
+      } else {
+        inputs.forEach(inp => inp.classList.remove('error'));
+        error.style.display = 'none';
+      }
+    }
+    
+    // Initial check
+    checkAgree();
+  </script>
 
-        // 2. Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // 3. Login Check Logic
-        setTimeout(() => {
-            const userMobile = localStorage.getItem("userMobile");
-            if (!userMobile) {
-                // Agar login nahi hai toh register page par bhejo
-                window.location.href = "register.html";
-            } else {
-                // Agar login hai toh seedhe game page (home.html)
-                window.location.href = "home.html";
-            }
-        }, 2000);
-    </script>
 </body>
 </html>
