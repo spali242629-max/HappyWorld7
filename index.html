@@ -11,5 +11,140 @@
         
         body { 
             /* Same to same background gradient jo teri photo mein tha */
-            background: linear-gradient(180deg,
-                                        
+            background: linear-gradient(180deg, #9d50bb 0%, #6e48aa 50%, #2994ff 100%);
+            background-attachment: fixed;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-card {
+            width: 92%;
+            max-width: 380px;
+            background: rgba(16, 21, 36, 0.95); /* Deep Dark Blue */
+            padding: 35px 20px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        /* HappyWorld Logo Text */
+        .logo {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, #ff52f1, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 82, 241, 0.4);
+        }
+
+        .title-text { font-size: 22px; font-weight: bold; margin-bottom: 5px; }
+        .sub-text { font-size: 13px; color: #7c839d; margin-bottom: 25px; }
+
+        .input-group {
+            background: #2b324d; /* Tiranga Blue Input Box */
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .input-group input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .country-tag {
+            font-weight: bold;
+            border-right: 1px solid #444;
+            padding-right: 10px;
+        }
+
+        /* Same to Same Blue Button */
+        .reg-button {
+            width: 100%;
+            background: #2994ff;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 35px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(41, 148, 255, 0.4);
+        }
+
+        .login-footer { margin-top: 20px; font-size: 14px; color: #7c839d; }
+        .login-footer b { color: #2994ff; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="register-card">
+        <div class="logo">HappyWorld</div>
+        
+        <div class="title-text">Register</div>
+        <p class="sub-text">Please register by phone number or email</p>
+
+        <div class="input-group">
+            <span class="country-tag">+91</span>
+            <input type="number" id="phone" placeholder="Enter phone number">
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="pass" placeholder="Set password">
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="confirmPass" placeholder="Confirm password">
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="invite" placeholder="Please enter invitation code">
+        </div>
+
+        <button class="reg-button" onclick="doRegister()">Register</button>
+        
+        <div class="login-footer">I have an account <b>Login</b></div>
+    </div>
+
+<script>
+    // Firebase Config (Replace with yours)
+    const firebaseConfig = {
+        apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
+        authDomain: "happy-world-25c08.firebaseapp.com",
+        databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
+        projectId: "happy-world-25c08"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function doRegister() {
+        const phone = document.getElementById("phone").value;
+        const pass = document.getElementById("pass").value;
+        const cPass = document.getElementById("confirmPass").value;
+
+        if(phone.length < 10) return alert("Bhai, number sahi dalo!");
+        if(pass !== cPass) return alert("Password match nahi kar raha!");
+
+        firebase.database().ref('users/' + phone).set({
+            mobile: phone,
+            password: pass,
+            balance: 0
+        }).then(() => {
+            window.location.href = "home.html";
+        }).catch(err => alert("Error: " + err.message));
+    }
+</script>
+</body>
+</html>
