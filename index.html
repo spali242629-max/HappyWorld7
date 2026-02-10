@@ -8,127 +8,117 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
     <style>
-        :root { --tiranga-blue: #242a46; --btn-blue: #2994ff; --text-gray: #7c839d; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        :root { 
+            --bg-color: #101524; /* Deep Dark Blue from your photo */
+            --input-bg: #222a42; 
+            --text-blue: #40c4ff; 
+            --btn-blue: #2994ff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         
-        body { background-color: #1a1d31; color: white; padding-bottom: 30px; }
-
-        /* Header Style */
-        .nav-header { padding: 15px; display: flex; align-items: center; justify-content: center; position: relative; }
-        .logo-text { font-size: 24px; font-weight: bold; color: #40c4ff; letter-spacing: 1px; }
-        
-        .register-title { padding: 20px; font-size: 20px; font-weight: bold; }
-        .sub-title { padding: 0 20px 20px; color: var(--text-gray); font-size: 13px; }
-
-        /* Input Styles */
-        .input-section { padding: 0 20px; margin-bottom: 20px; }
-        .label-row { display: flex; align-items: center; margin-bottom: 10px; font-size: 14px; }
-        .label-row img { width: 18px; margin-right: 10px; }
-        
-        .input-box {
-            background: #2b324d; border-radius: 8px; display: flex; align-items: center;
-            padding: 12px 15px; border: 1px solid transparent;
-        }
-        .input-box:focus-within { border-color: var(--btn-blue); }
-        .input-box input {
-            background: transparent; border: none; color: white; width: 100%;
-            font-size: 15px; outline: none; margin-left: 5px;
-        }
-        .country-code { color: white; border-right: 1px solid #444; padding-right: 10px; margin-right: 10px; font-weight: bold; }
-
-        /* Buttons */
-        .register-btn {
-            width: 90%; margin: 20px 5%; padding: 15px;
-            background: var(--btn-blue); border: none; border-radius: 25px;
-            color: white; font-size: 16px; font-weight: bold; cursor: pointer;
-        }
-        .login-btn {
-            width: 90%; margin: 0 5%; padding: 12px;
-            background: transparent; border: 1px solid var(--btn-blue);
-            color: var(--btn-blue); border-radius: 25px; font-size: 14px;
+        body { 
+            background-color: var(--bg-color); 
+            color: white; 
+            min-height: 100vh;
         }
 
-        .agreement { display: flex; align-items: center; padding: 10px 20px; font-size: 12px; color: var(--text-gray); }
-        .agreement span { color: #ff4d4d; margin-left: 5px; }
+        /* HappyWorld Header Style */
+        .header { 
+            padding: 40px 0 20px; 
+            text-align: center; 
+        }
+        .header h1 { 
+            color: var(--text-blue); 
+            font-size: 38px; 
+            font-weight: 900; 
+            letter-spacing: -1px;
+            text-shadow: 0 0 10px rgba(64, 196, 255, 0.3);
+        }
+
+        .container { padding: 0 25px; }
+        .title { font-size: 22px; font-weight: bold; margin-bottom: 5px; text-align: left; }
+        .subtitle { font-size: 13px; color: #7c839d; margin-bottom: 30px; }
+
+        .form-label { font-size: 14px; margin-bottom: 10px; display: block; color: #fff; }
+
+        /* Input Box Style */
+        .input-group {
+            background: var(--input-bg);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .input-group input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            font-size: 16px;
+            outline: none;
+            margin-left: 10px;
+        }
+        .input-group input::placeholder { color: #565e79; }
+        .country-code { color: #fff; padding-right: 12px; border-right: 1px solid #444; font-weight: 600; }
+
+        /* Register Button */
+        .btn-register {
+            width: 100%;
+            background: var(--btn-blue);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(41, 148, 255, 0.3);
+        }
+
+        .btn-login-outline {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--btn-blue);
+            color: var(--btn-blue);
+            padding: 14px;
+            border-radius: 30px;
+            margin-top: 20px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .agreement { font-size: 12px; color: #7c839d; margin-top: 15px; text-align: left; }
     </style>
 </head>
 <body>
 
-    <div class="nav-header">
-        <div class="logo-text">HappyWorld</div>
+    <div class="header">
+        <h1>HappyWorld</h1>
     </div>
 
-    <div class="register-title">Register</div>
-    <div class="sub-title">Please register by phone number or email</div>
+    <div class="container">
+        <div class="title">Register</div>
+        <div class="subtitle">Please register by phone number or email</div>
 
-    <div class="input-section">
-        <div class="label-row">Register your phone</div>
-        <div class="input-box">
+        <span class="form-label">Register your phone</span>
+        <div class="input-group">
             <span class="country-code">+91</span>
             <input type="number" id="phone" placeholder="Please enter the phone number">
         </div>
-    </div>
 
-    <div class="input-section">
-        <div class="label-row">Set password</div>
-        <div class="input-box">
+        <span class="form-label">Set password</span>
+        <div class="input-group">
             <input type="password" id="pass" placeholder="Set password">
         </div>
-    </div>
 
-    <div class="input-section">
-        <div class="label-row">Confirm password</div>
-        <div class="input-box">
+        <span class="form-label">Confirm password</span>
+        <div class="input-group">
             <input type="password" id="confirmPass" placeholder="Confirm password">
         </div>
-    </div>
 
-    <div class="input-section">
-        <div class="label-row">Invite code</div>
-        <div class="input-box">
-            <input type="text" id="invite" placeholder="Please enter the invitation code">
-        </div>
-    </div>
-
-    <div class="agreement">
-        <input type="checkbox" checked style="margin-right: 8px;">
-        I have read and agree <span>【Privacy Agreement】</span>
-    </div>
-
-    <button class="register-btn" onclick="handleRegister()">Register</button>
-    <button class="login-btn">I have an account <span style="font-weight:bold">Login</span></button>
-
-<script>
-    // Firebase Config
-    const firebaseConfig = {
-        apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
-        authDomain: "happy-world-25c08.firebaseapp.com",
-        databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
-        projectId: "happy-world-25c08",
-        storageBucket: "happy-world-25c08.appspot.com",
-        messagingSenderId: "192294282796",
-        appId: "1:192294282796:web:be56e1..."
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    function handleRegister() {
-        const phone = document.getElementById("phone").value;
-        const pass = document.getElementById("pass").value;
-        const cPass = document.getElementById("confirmPass").value;
-
-        if (phone.length < 10) return alert("Bhai, number sahi dalo!");
-        if (pass !== cPass) return alert("Passwords match nahi kar rahe!");
-
-        // Storing to Firebase
-        firebase.database().ref('users/' + phone).set({
-            mobile: phone,
-            password: pass,
-            balance: 0
-        }).then(() => {
-            localStorage.setItem("userMobile", phone);
-            window.location.href = "home.html"; // Redirect to home
-        }).catch(err => alert("Error: " + err.message));
-    }
-</script>
-</body>
-</html>
+        <span class="form-label">Invite code</span>
+        <div class="input-group">
+            
