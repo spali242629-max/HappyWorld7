@@ -1,103 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy World - Login</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HappyWorld | Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rock+Salt&display=swap" rel="stylesheet">
     
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #e0bbff, #d7a8ff, #c084fc); /* Light purple gradient */
-      min-height: 100vh;
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
-    .container {
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      padding: 40px 30px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            /* Full Screen Gradient - Same as Register */
+            background: linear-gradient(180deg, #9d50bb 0%, #6e48aa 40%, #2b324d 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        /* Stylized Text Logo */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo-main {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 50px;
+            color: #ff52f1;
+            transform: rotate(-3deg);
+            display: inline-block;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+        }
+        .logo-sub {
+            font-family: 'Rock Salt', cursive;
+            font-size: 32px;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            /* Full transparency feel - No Square Box */
+        }
+
+        .title { font-size: 28px; font-weight: bold; margin-bottom: 5px; text-align: left; }
+        .subtitle { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
+
+        .label { font-size: 14px; margin-bottom: 8px; display: block; }
+
+        /* Transparent Input Style */
+        .input-group {
+            background: rgba(43, 50, 77, 0.8);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-group input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .phone-icon {
+            font-weight: bold;
+            padding-right: 12px;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Professional Blue Button */
+        .login-btn {
+            width: 100%;
+            background: #2994ff;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 35px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(41, 148, 255, 0.3);
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 15px;
+        }
+        .footer-links b { color: #2994ff; cursor: pointer; }
+        
+        .forgot-pass {
+            display: block;
+            margin-top: 15px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-container">
+        <span class="logo-main">Happy</span>
+        <span class="logo-sub">World</span>
+    </div>
+
+    <div class="container">
+        <div class="title">Login</div>
+        <p class="subtitle">Please log in with your phone number</p>
+
+        <span class="label">Phone number</span>
+        <div class="input-group">
+            <span class="phone-icon">+91</span>
+            <input type="number" id="loginPhone" placeholder="Please enter the phone number">
+        </div>
+
+        <span class="label">Password</span>
+        <div class="input-group">
+            <input type="password" id="loginPass" placeholder="Please enter the password">
+        </div>
+
+        <button class="login-btn" onclick="handleLogin()">Login</button>
+        
+        <div class="footer-links">
+            Don't have an account? <b onclick="location.href='index.html'">Register</b>
+            <a href="#" class="forgot-pass">Forgot Password?</a>
+        </div>
+    </div>
+
+<script>
+    // Firebase Config - Same as Register
+    const firebaseConfig = {
+        apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
+        authDomain: "happy-world-25c08.firebaseapp.com",
+        databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
+        projectId: "happy-world-25c08"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function handleLogin() {
+        const phone = document.getElementById("loginPhone").value;
+        const pass = document.getElementById("loginPass").value;
+
+        if(!phone || !pass) return alert("Details bharo bhai!");
+
+        firebase.database().ref('users/' + phone).once('value', (snap) => {
+            if(snap.exists()){
+                const userData = snap.val();
+                if(userData.password === pass){
+                    alert("Login Success!");
+                    window.location.href = "home.html";
+                } else {
+                    alert("Password galat hai!");
+                }
+            } else {
+                alert("Account nahi mila!");
+            }
+        });
     }
-    
-    .header {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-    
-    .glow-title {
-      font-size: 2.6rem;
-      font-weight: 700;
-      color: #ff004c; /* Vibrant red */
-      text-shadow: 
-        0 0 10px #ff004c88,
-        0 0 20px #ff004c66,
-        0 0 40px #ff004c44,
-        0 0 80px #ff004c22; /* Red aura/glow effect */
-      letter-spacing: 1px;
-      animation: glow-pulse 3s infinite alternate;
-    }
-    
-    @keyframes glow-pulse {
-      from { text-shadow: 0 0 10px #ff004c88, 0 0 20px #ff004c66, 0 0 40px #ff004c33; }
-      to   { text-shadow: 0 0 20px #ff004cff, 0 0 40px #ff004ccc, 0 0 80px #ff004c88; }
-    }
-    
-    h2 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #4a148c; /* Dark purple */
-      margin-bottom: 12px;
-    }
-    
-    .subtitle {
-      font-size: 0.95rem;
-      color: #555;
-      margin-bottom: 30px;
-    }
-    
-    .tabs {
-      display: flex;
-      margin-bottom: 25px;
-      border-bottom: 2px solid #e0d4ff;
-    }
-    
-    .tab {
-      flex: 1;
-      text-align: center;
-      padding: 12px 0;
-      font-weight: 600;
-      color: #777;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .tab.active {
-      color: #7c3aed;
-      border-bottom: 3px solid #7c3aed;
-    }
-    
-    .input-group {
-      margin-bottom: 22px;
-      position: relative;
-    }
-    
-    label {
-      display: block
+</script>
+</body>
+</html>
