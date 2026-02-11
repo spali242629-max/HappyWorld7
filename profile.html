@@ -2,158 +2,304 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Profile | HappyWorld</title>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        
-        body { 
-            /* Same to same Registration Background */
-            background: linear-gradient(180deg, #9d50bb 0%, #6e48aa 40%, #2b324d 100%);
-            background-attachment: fixed;
-            color: white;
+        :root {
+            --bg-color: #2b3270;
+            --card-bg: #3e4a8d;
+            --secondary-card: #353d7c;
+            --text-main: #ffffff;
+            --text-muted: #b0b8d1;
+            --accent-yellow: #f3ad36;
+            --accent-blue: #4a90e2;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 15px;
             padding-bottom: 80px;
         }
 
-        /* Top Header Section */
-        .profile-header {
-            padding: 40px 20px;
+        /* Profile Section */
+        .profile-container {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-bottom: 20px;
+            margin-top: 10px;
         }
-        .avatar { width: 70px; height: 70px; border-radius: 50%; border: 3px solid #fff; }
-        .user-info h2 { font-size: 18px; margin-bottom: 5px; color: #ff52f1; } /* Logo Pink */
-        .uid-box { font-size: 13px; color: rgba(255,255,255,0.8); background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 10px; }
 
-        /* Wallet Section */
-        .wallet-card {
-            width: 92%; margin: 0 auto;
-            background: white; color: #333;
-            border-radius: 20px; padding: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            object-fit: cover;
         }
-        .balance-label { font-size: 14px; color: #666; }
-        .balance-amount { font-size: 28px; font-weight: bold; margin: 10px 0; }
-        
+
+        .user-info h2 { font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        .vip-badge { background: linear-gradient(90deg, #d4d4d4, #8e8e8e); padding: 2px 8px; border-radius: 10px; font-size: 10px; color: #000; font-weight: bold; }        
+        .uid-row {
+            background: var(--accent-yellow);
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 8px;            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin: 5px 0;
+        }
+        .uid-label { border-right: 1px solid rgba(255,255,255,0.5); padding-right: 5px; }
+        .last-login { font-size: 12px; color: var(--text-muted); }
+
+        /* Balance Card */
+        .balance-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }        .balance-label { color: var(--text-muted); font-size: 14px; margin-bottom: 8px; }
+        .balance-amount { font-size: 24px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .refresh-icon { font-size: 16px; color: var(--text-muted); }
+
         .action-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr);
-            gap: 10px; margin-top: 20px; text-align: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            text-align: center;
+            margin-top: 20px;
         }
-        .action-item img { width: 35px; margin-bottom: 5px; }
-        .action-item p { font-size: 12px; font-weight: 500; }
+        .action-item i { font-size: 24px; margin-bottom: 8px; display: block; }
+        .action-item span { font-size: 13px; color: var(--text-main); }
+        .icon-wallet { color: #ff5e5e; }
+        .icon-deposit { color: #f3ad36; }
+        .icon-withdraw { color: #4a90e2; }
+        .icon-vip { color: #2ecc71; }
 
-        /* Menu List */
-        .menu-container { width: 92%; margin: 20px auto; background: rgba(255,255,255,0.1); border-radius: 15px; }
-        .menu-item {
-            padding: 18px; border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer;
+        /* Safe Section */
+        .safe-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 15px;
+            position: relative;
         }
-        .menu-item:last-child { border: none; }
+        .safe-icon { background: #ffd700; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; }
+        .safe-content h3 { font-size: 16px; margin-bottom: 4px; }
+        .safe-content p { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+        .safe-balance { position: absolute; right: 15px; top: 15px; background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 15px; color: var(--accent-yellow); font-size: 12px; }
 
-        /* Logout Button */
-        .logout-btn {
-            width: 92%; margin: 30px auto;
-            border: 2px solid #ff4d4d; color: #ff4d4d;
-            padding: 15px; border-radius: 30px;
-            text-align: center; font-weight: bold;
-            background: transparent; cursor: pointer;
-            display: block;
+        /* History Grid */
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
         }
+        .history-card {
+            background-color: var(--secondary-card);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }        .history-card i { font-size: 24px; color: var(--accent-blue); }
+        .history-info h4 { font-size: 14px; }
+        .history-info p { font-size: 10px; color: var(--text-muted); }
+
+        /* List Items */
+        .list-item {
+            background-color: var(--secondary-card);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .list-left { display: flex; align-items: center; gap: 12px; }
+        .list-left i { font-size: 20px; color: var(--accent-blue); }
 
         /* Bottom Nav */
-         class="bottom-nav" style="position: fixed; bottom: 0; width: 100%; height: 70px; background: white; display: flex; justify-content: space-around; align-items: center; border-radius: 20px 20px 0 0;">
-    <div <div class="bottom-nav" style="position: fixed; bottom: 0; width: 100%; height: 70px; background: white; display: flex; justify-content: space-around; align-items: center; border-radius: 20px 20px 0 0;">
-    <div class="nav-tab" onclick="window.location.href='home.html'" style="cursor:pointer; color:#999; text-align:center;">Home</div>
-    <div class="nav-tab" onclick="window.location.href='activity.html'" style="cursor:pointer; color:#999; text-align:center;">Activity</div>
-    <div class="nav-tab" onclick="window.location.href='promotion.html'" style="cursor:pointer; color:#999; text-align:center;">Promotion</div>
-    <div class="nav-tab active" style="color:#ff4d4d; text-align:center;">Account</div>
-</div>
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1e2452;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+        }
+        .nav-item { text-align: center; color: var(--text-muted); text-decoration: none; font-size: 11px; }
+        .nav-item i { display: block; font-size: 20px; margin-bottom: 4px; }
+        .nav-item.active { color: var(--accent-blue); }
+        
+        .center-btn {
+            position: relative;
+            top: -25px;
+            background: linear-gradient(180deg, #ff8a00, #e52e2e);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--bg-color);
+            color: white;
+            font-weight: bold;
+        }
+        .center-btn span { font-size: 9px; margin-top: 2px; }
 
+        .floating-chat {
+            position: fixed;
+            right: 20px;
+            bottom: 100px;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .floating-chat i { color: #4a90e2; font-size: 30px; }
+    </style>
 </head>
 <body>
 
-    <div class="profile-header">
-        <img src="https://i.pravatar.cc/150?img=32" class="avatar">
+    <!-- Header -->
+    <div class="profile-container">
+        <img src="https://via.placeholder.com/80" alt="Avatar" class="avatar">
         <div class="user-info">
-            <h2 id="userName">MEMBER_USER</h2>
-            <div class="uid-box">UID | <span id="uidVal">20126115</span></div>
+            <h2>MEMBERNNGQ2KLO <span class="vip-badge"><i class="fas fa-star"></i> VIP1</span></h2>
+            <div class="uid-row">
+                <span class="uid-label">UID</span>
+                <span>7433297</span>
+                <i class="far fa-copy"></i>
+            </div>
+            <div class="last-login">Last login: 2026-02-08 20:42:10</div>
         </div>
     </div>
 
-    <div class="wallet-card">
-        <p class="balance-label">Total balance</p>
-        <p class="balance-amount">₹<span id="balanceVal">0.00</span></p>
-        
+    <!-- Balance Section -->
+    <div class="balance-card">
+        <div class="balance-label">Total balance</div>
+        <div class="balance-amount">
+            ₹0.58 <i class="fas fa-sync-alt refresh-icon"></i>
+        </div>
         <div class="action-grid">
             <div class="action-item">
-                <img src="https://cdn-icons-png.flaticon.com/512/657/657076.png">
-                <p>Deposit</p>
+                <i class="fas fa-wallet icon-wallet"></i>                <span>Wallet</span>
             </div>
             <div class="action-item">
-                <img src="https://cdn-icons-png.flaticon.com/512/1019/1019607.png">
-                <p>Withdraw</p>
+                <i class="fas fa-hand-holding-usd icon-deposit"></i>
+                <span>Deposit</span>
             </div>
             <div class="action-item">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png">
-                <p>VIP</p>
+                <i class="fas fa- university icon-withdraw"></i>
+                <span>Withdraw</span>
             </div>
             <div class="action-item">
-                <img src="https://cdn-icons-png.flaticon.com/512/261/261057.png">
-                <p>Wallet</p>
+                <i class="fas fa-gem icon-vip"></i>
+                <span>VIP</span>
             </div>
         </div>
     </div>
 
-    <div class="menu-container">
-        <div class="menu-item"><span>Game History</span> <span>></span></div>
-        <div class="menu-item"><span>Transaction History</span> <span>></span></div>
-        <div class="menu-item"><span>Notifications</span> <span>></span></div>
-        <div class="menu-item"><span>Gifts</span> <span>></span></div>
-        <div class="menu-item"><span>Settings</span> <span>></span></div>
+    <!-- Safe Section -->
+    <div class="safe-card">
+        <div class="safe-icon"><i class="fas fa-sun"></i></div>
+        <div class="safe-content">
+            <h3>Safe</h3>
+            <p>The daily interest rate is 0.1%, and the income is calculated once every 1 minutes.</p>
+        </div>
+        <div class="safe-balance">₹0.00 <i class="fas fa-chevron-right"></i></div>
     </div>
 
-    <button class="logout-btn" onclick="logoutUser()">Log out</button>
-
-    <div class="bottom-nav">
-        <div class="nav-tab">Home</div>
-        <div class="nav-tab">Activity</div>
-        <div class="nav-tab">Promotion</div>
-        <div class="nav-tab active">Account</div>
+    <!-- History Grid -->
+    <div class="history-grid">        <div class="history-card">
+            <i class="fas fa-file-invoice-dollar"></i>            <div class="history-info">
+                <h4>Game History</h4>
+                <p>My game history</p>
+            </div>
+        </div>
+        <div class="history-card">
+            <i class="fas fa-exchange-alt" style="color: #2ecc71;"></i>
+            <div class="history-info">
+                <h4>Transaction</h4>
+                <p>My transaction history</p>
+            </div>
+        </div>        <div class="history-card">
+            <i class="fas fa-piggy-bank" style="color: #ff5e5e;"></i>
+            <div class="history-info">
+                <h4>Deposit</h4>                <p>My deposit history</p>
+            </div>
+        </div>
+        <div class="history-card">
+            <i class="fas fa-wallet" style="color: #f3ad36;"></i>
+            <div class="history-info">
+                <h4>Withdraw</h4>
+                <p>My withdraw history</p>
+            </div>
+        </div>
     </div>
 
-<script>
-    // Firebase Config
-    const firebaseConfig = {
-        apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
-        databaseURL: "https://happy-world-25c08-default-rtdb.firebaseio.com",
-        projectId: "happy-world-25c08"
-    };
-    firebase.initializeApp(firebaseConfig);
+    <!-- List Items -->
+    <div class="list-item">
+        <div class="list-left">
+            <i class="fas fa-envelope"></i>
+            <span>Notification</span>
+        </div>
+        <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
+    </div>
+    <div class="list-item">
+        <div class="list-left">
+            <i class="fas fa-gift"></i>
+            <span>Gifts</span>
+        </div>
+        <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
+    </div>
 
-    // Fetch User Data
-    const mobile = localStorage.getItem("userMobile");
-    if(!mobile) {
-        window.location.href = 'login.html';
-    } else {
-        document.getElementById("userName").innerText = "MEMBER_" + mobile.substring(6);
-        document.getElementById("uidVal").innerText = mobile;
-        
-        firebase.database().ref('users/' + mobile).on('value', (snap) => {
-            if(snap.exists()) {
-                document.getElementById("balanceVal").innerText = snap.val().balance.toFixed(2);
-            }
-        });
-    }
+    <!-- Floating Chat -->
+    <div class="floating-chat">
+        <i class="fas fa-comment-dots"></i>
+    </div>
 
-    function logoutUser() {
-        localStorage.clear();
-        window.location.href = 'login.html';
-    }
-</script>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-th-large"></i>
+            Activity
+        </a>
+        <div class="center-btn">
+            GO
+            <span>Get ₹500</span>
+        </div>
+        <a href="#" class="nav-item">
+            <i class="fas fa-bullhorn"></i>
+            Promotion
+        </a>
+        <a href="#" class="nav-item active">
+            <i class="fas fa-user-circle"></i>
+            Account
+        </a>
+    </nav>
+
 </body>
 </html>
