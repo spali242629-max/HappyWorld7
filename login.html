@@ -136,6 +136,23 @@
         </div>
 
         <button class="login-btn" onclick="handleLogin()">Login</button>
+        // login.html ke script mein ye badlav karo
+firebase.database().ref('users/' + phone).once('value', (snap) => {
+    if(snap.exists()){
+        const userData = snap.val();
+        if(userData.password === pass){
+            // --- YE LINE ZAROORI HAI ---
+            localStorage.setItem("userMobile", phone); 
+            // ---------------------------
+            alert("Login Success!");
+            window.location.href = "profile.html"; // Seedha profile par bhejo
+        } else {
+            alert("Password galat hai!");
+        }
+    } else {
+        alert("Account nahi mila!");
+    }
+});
         
         <div class="footer-links">
             Don't have an account? <b onclick="location.href='index.html'">Register</b>
