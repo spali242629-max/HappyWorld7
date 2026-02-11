@@ -4,44 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HappyWorld | Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rock+Salt&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         
         body { 
-            /* Full Screen Background Image */
-            background: url('1000129556.jpg') no-repeat center center fixed;
-            background-size: cover;
+            /* Full Screen Gradient with Photo Fallback */
+            background: linear-gradient(180deg, #9d50bb 0%, #6e48aa 40%, #2b324d 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 50px;
+            padding: 50px 20px;
         }
 
-        /* Tera bheja hua Happy World Text Logo */
-        .logo-img {
-            width: 250px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 10px rgba(255, 82, 241, 0.5));
+        /* EXACT Stylized Text Look */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo-main {
+            font-family: 'Permanent Marker', cursive; /* Brush Style */
+            font-size: 50px;
+            display: inline-block;
+            color: #ff52f1; /* Pink from your logo */
+            transform: rotate(-3deg); /* Slight tilt like your image */
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+        .logo-sub {
+            font-family: 'Rock Salt', cursive; /* Rough hand-drawn style */
+            font-size: 32px;
+            color: white;
+            margin-left: 10px;
         }
 
         .container {
-            width: 90%;
+            width: 100%;
             max-width: 400px;
-            /* Beech wala square box hata diya */
+            /* NO SQUARE BOX - Full transparency feel */
         }
 
-        .title { font-size: 26px; font-weight: bold; margin-bottom: 5px; text-align: center; }
-        .subtitle { font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 35px; text-align: center; }
+        .title { font-size: 26px; font-weight: bold; margin-bottom: 5px; text-align: left; }
+        .subtitle { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 35px; }
 
-        .form-label { font-size: 14px; margin-bottom: 10px; display: block; font-weight: 500; }
-
-        /* Full Transparent Input Group */
+        /* Transparent Input Style */
         .input-group {
-            background: rgba(43, 50, 77, 0.7); /* Thoda transparent dark blue */
+            background: rgba(43, 50, 77, 0.8);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 20px;
@@ -60,73 +74,72 @@
             margin-left: 10px;
         }
 
-        .country-code {
+        .country-tag {
             font-weight: bold;
-            border-right: 1px solid rgba(255,255,255,0.3);
             padding-right: 12px;
+            border-right: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Full Width Professional Blue Button */
+        /* Tiranga Style Blue Button */
         .reg-btn {
             width: 100%;
-            background: #2994ff; 
+            background: #2994ff;
             color: white;
             border: none;
             padding: 18px;
             border-radius: 35px;
             font-size: 18px;
             font-weight: bold;
-            margin-top: 25px;
+            margin-top: 15px;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(41, 148, 255, 0.4);
+            box-shadow: 0 8px 20px rgba(41, 148, 255, 0.3);
         }
 
         .login-link {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 30px;
             font-size: 15px;
-            color: rgba(255,255,255,0.8);
         }
         .login-link b { color: #2994ff; }
     </style>
 </head>
 <body>
 
-    <img src="1000129565.jpg" alt="HappyWorld" class="logo-img">
+    <div class="logo-container">
+        <span class="logo-main">Happy</span>
+        <span class="logo-sub">World</span>
+    </div>
 
     <div class="container">
         <div class="title">Register</div>
         <p class="subtitle">Please register by phone number or email</p>
 
-        <span class="form-label">Register your phone</span>
         <div class="input-group">
-            <span class="country-code">+91</span>
+            <span class="country-tag">+91</span>
             <input type="number" id="phone" placeholder="Please enter the phone number">
         </div>
 
-        <span class="form-label">Set password</span>
         <div class="input-group">
             <input type="password" id="pass" placeholder="Set password">
         </div>
 
-        <span class="form-label">Confirm password</span>
         <div class="input-group">
-            <input type="password" id="confirmPass" placeholder="Confirm password">
+            <input type="password" id="confirm" placeholder="Confirm password">
         </div>
 
-        <span class="form-label">Invite code</span>
         <div class="input-group">
             <input type="text" id="invite" placeholder="Please enter the invitation code">
         </div>
 
-        <button class="reg-btn" onclick="saveData()">Register</button>
+        <button class="reg-btn" onclick="save()">Register</button>
         
         <div class="login-link">
-            I have an account <span style="font-weight:bold; color:#2994ff">Login</span>
+            I have an account <b>Login</b>
         </div>
     </div>
 
 <script>
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAkNNHRLNPE1CxNd9KD...", 
         authDomain: "happy-world-25c08.firebaseapp.com",
@@ -135,19 +148,19 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-    function saveData() {
+    function save() {
         const p = document.getElementById("phone").value;
         const s = document.getElementById("pass").value;
-        const c = document.getElementById("confirmPass").value;
+        const c = document.getElementById("confirm").value;
 
-        if(p.length < 10) return alert("Bhai, number sahi dalo!");
+        if(p.length < 10) return alert("Number sahi dalo!");
         if(s !== c) return alert("Password match nahi hua!");
 
         firebase.database().ref('users/' + p).set({
             mobile: p, password: s, balance: 0
         }).then(() => {
             window.location.href = "home.html";
-        }).catch(err => alert(err.message));
+        });
     }
 </script>
 </body>
