@@ -50,6 +50,20 @@
                 localStorage.setItem("userMobile", phone); // FIX: Memory save
                 window.location.href = "profile.html";
             } else { alert("Galt details!"); }
+            <button onclick="goToProfile()" class="login-btn">
+    LOGIN
+</button>
+
+<script>
+function goToProfile() {
+    // 1. Browser ko batao ki login ho gaya hai
+    localStorage.setItem('isLoggedIn', 'true');
+
+    // 2. Ab profile page par bhej do (Yahan apni profile file ka naam likho)
+    window.location.href = "index.html"; 
+}
+</script>
+    
         });
     }
 </script>
