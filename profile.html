@@ -20,19 +20,60 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
-            background: var(--bg-main);
+            background: #1a1f3c; /* Base color for transition */
             color: var(--text-white);
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* --- New Login Screen Styling --- */
+        #loginScreen {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            background: var(--bg-main);
+            z-index: 9999;
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--card-glass);
+            padding: 40px 20px;
+            border-radius: 25px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .login-btn-main {
+            background: var(--accent-sky);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* --- Profile Container --- */
         .container {
             width: 100%;
             max-width: 480px;
             padding-bottom: 110px;
             position: relative;
             animation: slideUp 0.7s ease-out;
+            background: var(--bg-main);
+            min-height: 100vh;
         }
 
         @keyframes slideUp {
@@ -284,7 +325,16 @@
 </head>
 <body>
 
-<div class="container">
+<div id="loginScreen">
+    <div class="login-card">
+        <i class="fa-solid fa-user-shield" style="font-size: 4rem; color: var(--accent-sky); margin-bottom: 20px;"></i>
+        <h1 style="margin-bottom: 10px;">Login Required</h1>
+        <p style="color: var(--text-dim);">Please log in to access your profile.</p>
+        <button class="login-btn-main" onclick="handleLogin()">LOGIN NOW</button>
+    </div>
+</div>
+
+<div class="container" id="profileContainer">
     <header class="profile-header">
         <div class="avatar-wrapper" onclick="document.getElementById('imgInput').click()">
             <img id="userImg" src="https://i.imgur.com/8Km9tLL.png" alt="Profile">
@@ -399,9 +449,31 @@
 </div>
 
 <script>
-    // 1. Core Persistence Logic
+    // --- 1. SESSION LOGIC (NEW) ---
+    function checkSession() {
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        if (isLoggedIn === 'true') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('profileContainer').style.display = 'block';
+        } else {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('profileContainer').style.display = 'none';
+        }
+    }
+
+    function handleLogin() {
+        localStorage.setItem('isLoggedIn', 'true');
+        checkSession();
+        // Trigger slide-up animation on login
+        document.getElementById('profileContainer').style.animation = 'none';
+        void document.getElementById('profileContainer').offsetWidth; // Trigger reflow
+        document.getElementById('profileContainer').style.animation = 'slideUp 0.7s ease-out';
+    }
+
+    // --- 2. CORE PERSISTENCE LOGIC (RETAINED) ---
     window.onload = function() {
-        // Load or Create UID and Name
+        checkSession(); // Check login status first
+
         if (!localStorage.getItem('savedUID')) {
             const randomID = Math.floor(7000000 + Math.random() * 999999);
             const randomName = "MEMBER" + Math.random().toString(36).substring(2, 7).toUpperCase();
@@ -412,14 +484,13 @@
         document.getElementById('uidDisplay').innerText = localStorage.getItem('savedUID');
         document.getElementById('userNameDisplay').innerHTML = localStorage.getItem('savedName') + ' <span class="vip-badge-img">VIP1</span>';
 
-        // Load Persistent Image
         const storedImg = localStorage.getItem('savedImg');
         if (storedImg) {
             document.getElementById('userImg').src = storedImg;
         }
     };
 
-    // 2. Image Selection & Saving
+    // --- 3. IMAGE SELECTION & SAVING (RETAINED) ---
     document.getElementById('imgInput').onchange = function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -433,14 +504,14 @@
         }
     };
 
-    // 3. Functional Buttons
+    // --- 4. FUNCTIONAL BUTTONS (FIXED LOGOUT) ---
     function logoutAction() {
         if(confirm("Confirm Logout?")) {
-            // Animating out for better feel
-            document.querySelector('.container').style.opacity = '0';
-            setTimeout(() => {
-                location.reload(); 
-            }, 500);
+            // Update session status
+            localStorage.setItem('isLoggedIn', 'false');
+            
+            // Teleport to Login Screen instantly
+            checkSession();
         }
     }
 
