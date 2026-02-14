@@ -506,13 +506,16 @@
 
     // --- 4. FUNCTIONAL BUTTONS (FIXED LOGOUT) ---
     function logoutAction() {
-        if(confirm("Confirm Logout?")) {
-            // Update session status
-            localStorage.setItem('isLoggedIn', 'false');
-            
-            // Teleport to Login Screen instantly
-            checkSession();
-        }
+    if(confirm("Confirm Logout?")) {
+        // 1. Storage saaf karo taaki automatic login na ho jaye
+        localStorage.removeItem('isLoggedIn');
+        
+        // 2. Apne Login Page ki file ka naam yahaan likho
+        // Maan lo tumhare login page ka naam 'login.html' hai
+        window.location.href = "login.html"; 
+    }
+}
+
     }
 
     function copyUID() {
