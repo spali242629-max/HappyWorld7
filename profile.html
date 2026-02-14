@@ -188,6 +188,7 @@ export default function AccountScreen() {
     return now.toISOString().replace('T', ' ').substring(0, 19);
   });
 
+  // Load or generate persistent UID and MemberID
   useEffect(() => {
     (async () => {
       try {
@@ -212,6 +213,7 @@ export default function AccountScreen() {
     })();
   }, []);
 
+  // Pulse animation for balance
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const headerSlide = useRef(new Animated.Value(-100)).current;
   const headerOpacity = useRef(new Animated.Value(0)).current;
@@ -277,6 +279,7 @@ export default function AccountScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}>
 
+        {/* Profile Header */}
         <Animated.View
           style={[
             styles.headerContainer,
@@ -286,6 +289,7 @@ export default function AccountScreen() {
             },
           ]}>
           <View style={styles.profileRow}>
+            {/* Profile Photo */}
             <TouchableOpacity onPress={pickImage} activeOpacity={0.8}>
               <View style={styles.avatarContainer}>
                 {profileImage ? (
@@ -303,6 +307,7 @@ export default function AccountScreen() {
               </View>
             </TouchableOpacity>
 
+            {/* Member Info */}
             <View style={styles.memberInfo}>
               <View style={styles.nameRow}>
                 <Text style={styles.memberName}>{memberId}</Text>
@@ -322,6 +327,7 @@ export default function AccountScreen() {
           </View>
         </Animated.View>
 
+        {/* Balance Card */}
         <AnimatedCard delay={100} style={styles.sectionPadding}>
           <LinearGradient
             colors={['#3D1F6D', '#5B2D8E', '#4A2080']}
@@ -351,6 +357,7 @@ export default function AccountScreen() {
           </LinearGradient>
         </AnimatedCard>
 
+        {/* Safe Section */}
         <AnimatedCard delay={200} style={styles.sectionPadding}>
           <View style={styles.card}>
             <View style={styles.safeRow}>
@@ -373,8 +380,9 @@ export default function AccountScreen() {
           </View>
         </AnimatedCard>
 
+        {/* History Cards - 2x2 Grid */}
         <AnimatedCard delay={300} style={styles.sectionPadding}>
-          <div className="historyGrid" style={styles.historyGrid}>
+          <View style={styles.historyGrid}>
             <View style={styles.historyRow}>
               <HistoryCard emoji={'\uD83D\uDCCA'} title="Game History" />
               <HistoryCard emoji={'\uD83D\uDCD1'} title="Transaction" />
@@ -383,9 +391,10 @@ export default function AccountScreen() {
               <HistoryCard emoji={'\uD83D\uDCE5'} title="Deposit" />
               <HistoryCard emoji={'\uD83D\uDCE4'} title="Withdraw" />
             </View>
-          </div>
+          </View>
         </AnimatedCard>
 
+        {/* Menu Items */}
         <AnimatedCard delay={400} style={styles.sectionPadding}>
           <View style={styles.card}>
             <MenuRow emoji={'\u2709\uFE0F'} title="Notification" badge={1} />
@@ -398,20 +407,22 @@ export default function AccountScreen() {
           </View>
         </AnimatedCard>
 
+        {/* Service Center */}
         <AnimatedCard delay={500} style={styles.sectionPadding}>
           <View style={styles.card}>
             <Text style={styles.sectionTitle}>Service center</Text>
-            <div className="serviceGrid" style={styles.serviceGrid}>
+            <View style={styles.serviceGrid}>
               <ServiceButton emoji={'\u2699\uFE0F'} label="Settings" />
               <ServiceButton emoji={'\uD83D\uDCDD'} label="Feedback" />
               <ServiceButton emoji={'\uD83D\uDCE2'} label="Announcement" />
               <ServiceButton emoji={'\uD83E\uDD16'} label="Customer Service" />
               <ServiceButton emoji={'\uD83D\uDCD6'} label="Beginner's Guide" />
               <ServiceButton emoji={'\u2139\uFE0F'} label="About us" />
-            </div>
+            </View>
           </View>
         </AnimatedCard>
 
+        {/* Log Out Button */}
         <AnimatedCard delay={600} style={styles.logoutSection}>
           <TouchableOpacity onPress={handleLogout} activeOpacity={0.7}>
             <LinearGradient
@@ -430,14 +441,21 @@ export default function AccountScreen() {
 }
 
 const styles = StyleSheet.create({
-  flex1: { flex: 1 },
-  scrollContent: { paddingBottom: 40 },
+  flex1: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 40,
+  },
   headerContainer: {
     paddingTop: Platform.OS === 'ios' ? 60 : 40,
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
-  profileRow: { flexDirection: 'row', alignItems: 'center' },
+  profileRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   avatarContainer: {
     width: 80,
     height: 80,
@@ -446,7 +464,11 @@ const styles = StyleSheet.create({
     borderColor: '#C0C0C0',
     position: 'relative',
   },
-  avatar: { width: 76, height: 76, borderRadius: 38 },
+  avatar: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+  },
   avatarPlaceholder: {
     width: 76,
     height: 76,
@@ -454,7 +476,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarEmoji: { fontSize: 36 },
+  avatarEmoji: {
+    fontSize: 36,
+  },
   cameraIcon: {
     position: 'absolute',
     bottom: -2,
@@ -468,9 +492,17 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#1A0A2E',
   },
-  cameraEmoji: { fontSize: 12 },
-  memberInfo: { marginLeft: 16, flex: 1 },
-  nameRow: { flexDirection: 'row', alignItems: 'center' },
+  cameraEmoji: {
+    fontSize: 12,
+  },
+  memberInfo: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   memberName: {
     color: '#FFFFFF',
     fontSize: 16,
@@ -486,8 +518,15 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     marginLeft: 8,
   },
-  vipStar: { fontSize: 10 },
-  vipText: { color: '#FFD700', fontSize: 11, fontWeight: '700', marginLeft: 3 },
+  vipStar: {
+    fontSize: 10,
+  },
+  vipText: {
+    color: '#FFD700',
+    fontSize: 11,
+    fontWeight: '700',
+    marginLeft: 3,
+  },
   uidContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -498,12 +537,34 @@ const styles = StyleSheet.create({
     marginTop: 6,
     alignSelf: 'flex-start',
   },
-  uidLabel: { color: '#C0C0C0', fontSize: 11, fontWeight: '700' },
-  uidDivider: { color: '#8B8B9E', fontSize: 11, marginHorizontal: 6 },
-  uidValue: { color: '#FFFFFF', fontSize: 11, fontWeight: '600' },
-  copyIcon: { fontSize: 12, marginLeft: 6 },
-  lastLogin: { color: '#8B8B9E', fontSize: 11, marginTop: 6 },
-  sectionPadding: { paddingHorizontal: 16, marginBottom: 12 },
+  uidLabel: {
+    color: '#C0C0C0',
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  uidDivider: {
+    color: '#8B8B9E',
+    fontSize: 11,
+    marginHorizontal: 6,
+  },
+  uidValue: {
+    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  copyIcon: {
+    fontSize: 12,
+    marginLeft: 6,
+  },
+  lastLogin: {
+    color: '#8B8B9E',
+    fontSize: 11,
+    marginTop: 6,
+  },
+  sectionPadding: {
+    paddingHorizontal: 16,
+    marginBottom: 12,
+  },
   balanceCard: {
     borderRadius: 16,
     padding: 20,
@@ -515,10 +576,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  balanceLabel: { color: '#B8A9D4', fontSize: 14 },
-  balanceAmountRow: { flexDirection: 'row', alignItems: 'center' },
-  balanceAmount: { color: '#FFFFFF', fontSize: 28, fontWeight: '800', marginTop: 4 },
-  refreshIcon: { fontSize: 16, marginLeft: 8 },
+  balanceLabel: {
+    color: '#B8A9D4',
+    fontSize: 14,
+  },
+  balanceAmountRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  balanceAmount: {
+    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: '800',
+    marginTop: 4,
+  },
+  refreshIcon: {
+    fontSize: 16,
+    marginLeft: 8,
+  },
   enterWalletBtn: {
     backgroundColor: 'rgba(192,192,192,0.25)',
     borderRadius: 20,
@@ -527,12 +602,32 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(192,192,192,0.3)',
   },
-  enterWalletText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
-  walletRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 24 },
-  walletBtn: { alignItems: 'center', width: (width - 80) / 4 },
-  walletBtnInner: { alignItems: 'center' },
-  walletEmoji: { fontSize: 28 },
-  walletLabel: { color: '#C0C0C0', fontSize: 12, marginTop: 6, fontWeight: '500' },
+  enterWalletText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  walletRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 24,
+  },
+  walletBtn: {
+    alignItems: 'center',
+    width: (width - 80) / 4,
+  },
+  walletBtnInner: {
+    alignItems: 'center',
+  },
+  walletEmoji: {
+    fontSize: 28,
+  },
+  walletLabel: {
+    color: '#C0C0C0',
+    fontSize: 12,
+    marginTop: 6,
+    fontWeight: '500',
+  },
   card: {
     backgroundColor: 'rgba(45,27,78,0.6)',
     borderRadius: 16,
@@ -540,27 +635,59 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(192,192,192,0.1)',
   },
-  safeRow: { flexDirection: 'row', alignItems: 'center' },
-  safeLockEmoji: { fontSize: 28, marginRight: 12 },
+  safeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  safeLockEmoji: {
+    fontSize: 28,
+    marginRight: 12,
+  },
   safeTopRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  safeTitle: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
-  safeRightRow: { flexDirection: 'row', alignItems: 'center' },
+  safeTitle: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  safeRightRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   safeAmountBadge: {
     backgroundColor: 'rgba(123,47,190,0.5)',
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 3,
   },
-  safeAmountText: { color: '#FFFFFF', fontWeight: '700', fontSize: 13 },
-  safeArrow: { color: '#8B8B9E', fontSize: 18, marginLeft: 6 },
-  safeDesc: { color: '#8B8B9E', fontSize: 12, marginTop: 4 },
-  historyGrid: { display: 'flex', flexDirection: 'column', gap: 8 },
-  historyRow: { flexDirection: 'row', gap: 8 },
-  historyCardOuter: { flex: 1 },
+  safeAmountText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 13,
+  },
+  safeArrow: {
+    color: '#8B8B9E',
+    fontSize: 18,
+    marginLeft: 6,
+  },
+  safeDesc: {
+    color: '#8B8B9E',
+    fontSize: 12,
+    marginTop: 4,
+  },
+  historyGrid: {
+    gap: 8,
+  },
+  historyRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  historyCardOuter: {
+    flex: 1,
+  },
   historyCard: {
     backgroundColor: 'rgba(45,27,78,0.6)',
     borderRadius: 12,
@@ -579,32 +706,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 10,
   },
-  historyEmoji: { fontSize: 20 },
+  historyEmoji: {
+    fontSize: 20,
+  },
   historyTitle: {
     color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '600',
-    flexShrink: 1,
-  },
-  menuRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 14,
-  },
-  menuRowLeft: { flexDirection: 'row', alignItems: 'center', flex: 1 },
-  menuEmoji: { fontSize: 22, marginRight: 12 },
-  menuText: { color: '#FFFFFF', fontSize: 15, fontWeight: '500' },
-  menuRowRight: { flexDirection: 'row', alignItems: 'center' },
-  menuRightText: { color: '#8B8B9E', fontSize: 13 },
-  menuArrow: { color: '#8B8B9E', fontSize: 18, marginLeft: 8 },
-  badge: {
-    backgroundColor: '#FF3B30',
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 6,
-  },
-  badgeText: { color: '
+    flexShrink: 
