@@ -3,364 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Interface</title>
+    <title>Premium Profile UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-dark: #1a1f3c;
-            --card-bg: #2b3467;
-            --accent-blue: #4d77ff;
-            --text-gray: #a0a0c0;
-            --gold: #ffcc00;
+            /* Light Purple & Blue Mixed Theme */
+            --bg-gradient: linear-gradient(180deg, #2b3a8c 0%, #161a3d 100%);
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-sub: #8e99c7;
+            --accent-sky: #4da6ff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
         body {
-            background-color: var(--bg-dark);
-            color: white;
+            background: var(--bg-gradient);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
-            overflow-x: hidden;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 450px;
-            background: linear-gradient(180deg, #242a5e 0%, #1a1f3c 100%);
             min-height: 100vh;
-            padding-bottom: 80px;
-            animation: fadeIn 0.8s ease-out;
         }
 
-        /* Animations */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            padding-bottom: 100px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         /* Header Section */
-        .profile-header {
-            padding: 25px 20px;
+        .header {
+            padding: 30px 20px;
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
-        .avatar-container {
+        .profile-pic-container {
             position: relative;
+            width: 75px;
+            height: 75px;
             cursor: pointer;
         }
 
-        .avatar-container img {
-            width: 70px;
-            height: 70px;
+        #displayPic {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            border: 2px solid var(--accent-blue);
+            border: 2px solid #fff;
             object-fit: cover;
         }
 
-        .user-info h2 {
-            font-size: 1.1rem;
+        .user-details h2 { font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .vip-badge {
+            background: linear-gradient(90deg, #b8c6db, #f5f7fa);
+            color: #2b3a8c;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .uid-row {
+            background: rgba(0,0,0,0.2);
+            padding: 4px 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .vip-badge {
-            background: linear-gradient(90deg, #d4d4d4, #ffffff);
-            color: #444;
-            font-size: 0.6rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-
-        .uid-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            color: var(--gold);
-            margin-top: 5px;
-            display: inline-block;
+            gap: 5px;
+            color: #ffcc00;
         }
 
         /* Balance Card */
-        .balance-card {
-            background: var(--card-bg);
-            margin: 0 15px;
-            border-radius: 15px;
-            padding: 20px;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .balance-amount {
-            font-size: 1.8rem;
-            font-weight: bold;
+        .balance-section {
+            padding: 0 15px;
             margin-bottom: 20px;
         }
-
-        .action-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            text-align: center;
-            gap: 10px;
+        .balance-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
         }
+        .balance-card h3 { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 10px; }
+        .balance-val { font-size: 1.8rem; font-weight: bold; }
 
-        .action-item i {
-            font-size: 1.5rem;
-            color: var(--accent-blue);
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* Safe Box */
-        .safe-box {
-            background: var(--card-bg);
-            margin: 15px;
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid var(--gold);
-        }
-
-        /* Menu Grid Section */
-        .menu-grid {
+        /* Icon Grid (The Curved Boxes) */
+        .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 12px;
             padding: 0 15px;
         }
 
-        .menu-card {
+        .grid-box {
             background: var(--card-bg);
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 18px; /* High curve as requested */
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
-
-        .menu-card:active { transform: scale(0.95); }
-
-        /* List Menu */
-        .list-menu {
-            background: var(--card-bg);
-            margin: 15px;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .list-item {
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* Service Center Grid */
-        .service-center {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .service-item i {
-            font-size: 1.4rem;
-            color: var(--accent-blue);
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .logout-btn {
-            margin: 20px 15px;
-            border: 1px solid #4d77ff;
-            padding: 12px;
-            border-radius: 25px;
-            text-align: center;
-            color: #4d77ff;
-            font-weight: bold;
+            gap: 12px;
+            transition: 0.2s;
             cursor: pointer;
         }
+        
+        .grid-box:active { transform: scale(0.96); background: rgba(255,255,255,0.15); }
 
-        /* Footer Nav */
-        .footer-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 450px;
-            background: #1e2548;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .nav-item { text-align: center; font-size: 0.7rem; color: var(--text-gray); }
-        .nav-item.active { color: var(--accent-blue); }
-
-        .spin-btn {
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #ff5f6d, #ffc371);
-            border-radius: 50%;
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 4px solid var(--bg-dark);
+        .icon-sq {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 1.4rem;
         }
+
+        /* Colorful Icon Gradients */
+        .bg-blue { background: linear-gradient(135deg, #5b86e5, #36d1dc); }
+        .bg-green { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .bg-red { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .bg-orange { background: linear-gradient(135deg, #f39c12, #d35400); }
+
+        .box-title { font-weight: 600; font-size: 0.95rem; }
+        .box-sub { font-size: 0.75rem; color: var(--text-sub); }
+
+        /* Menu List */
+        .menu-list {
+            margin: 20px 15px;
+            background: var(--card-bg);
+            border-radius: 15px;
+        }
+
+        .menu-item {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Service Center */
+        .service-title { padding: 15px 20px; color: var(--text-sub); font-size: 0.9rem; }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+            padding: 0 15px;
+            gap: 20px;
+        }
+        .service-item i { font-size: 1.5rem; color: var(--accent-sky); margin-bottom: 8px; display: block; }
+
+        /* Log out Button */
+        .logout-container { padding: 30px 20px; }
+        .logout-btn {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid var(--accent-sky);
+            background: transparent;
+            color: var(--accent-sky);
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--accent-sky); color: white; }
 
         #fileInput { display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="profile-header">
-        <div class="avatar-container" onclick="document.getElementById('fileInput').click()">
-            <img id="profilePic" src="https://via.placeholder.com/150" alt="Profile">
+<div class="app-container">
+    <div class="header">
+        <div class="profile-pic-container" onclick="document.getElementById('fileInput').click()">
+            <img id="displayPic" src="https://i.imgur.com/8Km9tLL.png" alt="Profile">
             <input type="file" id="fileInput" accept="image/*">
         </div>
-        <div class="user-info">
-            <h2 id="userName">MEMBER_LOADING <span class="vip-badge">VIP 1</span></h2>
-            <div class="uid-box">UID | <span id="userUID">-------</span> <i class="fa-regular fa-copy"></i></div>
-            <p style="font-size: 0.7rem; color: var(--text-gray); margin-top: 5px;">Last login: 2026-02-14 22:51</p>
+        <div class="user-details">
+            <h2 id="nameTag">USER_NAME <span class="vip-badge">VIP1</span></h2>
+            <div class="uid-row">UID | <span id="uidTag">-------</span> <i class="fa-regular fa-copy" style="font-size: 0.7rem; cursor: pointer;"></i></div>
         </div>
     </div>
 
-    <div class="balance-card">
-        <p style="color: var(--text-gray); font-size: 0.9rem;">Total balance</p>
-        <div class="balance-amount">₹0.00 <i class="fa-solid fa-rotate-right" style="font-size: 1rem; color: var(--accent-blue)"></i></div>
-        <div class="action-grid">
-            <div class="action-item"><i class="fa-solid fa-wallet"></i> Wallet</div>
-            <div class="action-item"><i class="fa-solid fa-arrow-up-from-bracket"></i> Deposit</div>
-            <div class="action-item"><i class="fa-solid fa-money-bill-transfer"></i> Withdraw</div>
-            <div class="action-item"><i class="fa-solid fa-gem" style="color: #00ffaa;"></i> VIP</div>
+    <div class="balance-section">
+        <div class="balance-card">
+            <h3>Total balance</h3>
+            <div class="balance-val">₹0.00 <i class="fa-solid fa-arrows-rotate" style="font-size: 1rem; color: var(--accent-sky); margin-left: 10px;"></i></div>
         </div>
     </div>
 
-    <div class="safe-box">
-        <div>
-            <p><strong><i class="fa-solid fa-shield-halved" style="color:var(--gold)"></i> Safe</strong></p>
-            <p style="font-size: 0.65rem; color: var(--text-gray)">Daily interest rate is 0.1%</p>
+    <div class="grid-container">
+        <div class="grid-box">
+            <div class="icon-sq bg-blue"><i class="fa-solid fa-file-invoice"></i></div>
+            <div>
+                <div class="box-title">Game History</div>
+                <div class="box-sub">My game history</div>
+            </div>
         </div>
-        <div style="color: var(--gold); font-weight: bold;">₹0.00 ></div>
-    </div>
-
-    <div class="menu-grid">
-        <div class="menu-card"><i class="fa-solid fa-gamepad"></i> <div>Game History</div></div>
-        <div class="menu-card"><i class="fa-solid fa-list-check"></i> <div>Transaction</div></div>
-        <div class="menu-card"><i class="fa-solid fa-file-invoice-dollar"></i> <div>Deposit Hx</div></div>
-        <div class="menu-card"><i class="fa-solid fa-clock-rotate-left"></i> <div>Withdraw Hx</div></div>
-    </div>
-
-    <div class="list-menu">
-        <div class="list-item">
-            <span><i class="fa-solid fa-envelope" style="margin-right:10px"></i> Notification</span>
-            <span style="background:red; border-radius:50%; padding:2px 6px; font-size:0.7rem">1</span>
+        <div class="grid-box">
+            <div class="icon-sq bg-green"><i class="fa-solid fa-receipt"></i></div>
+            <div>
+                <div class="box-title">Transaction</div>
+                <div class="box-sub">My transaction history</div>
+            </div>
         </div>
-        <div class="list-item">
-            <span><i class="fa-solid fa-gift" style="margin-right:10px"></i> Gifts</span>
-            <i class="fa-solid fa-chevron-right"></i>
+        <div class="grid-box">
+            <div class="icon-sq bg-red"><i class="fa-solid fa-file-circle-plus"></i></div>
+            <div>
+                <div class="box-title">Deposit</div>
+                <div class="box-sub">My deposit history</div>
+            </div>
         </div>
-        <div class="list-item">
-            <span><i class="fa-solid fa-chart-line" style="margin-right:10px"></i> Game Statistics</span>
-            <i class="fa-solid fa-chevron-right"></i>
-        </div>
-        <div class="list-item">
-            <span><i class="fa-solid fa-globe" style="margin-right:10px"></i> Language</span>
-            <span>English <i class="fa-solid fa-chevron-right"></i></span>
+        <div class="grid-box">
+            <div class="icon-sq bg-orange"><i class="fa-solid fa-briefcase"></i></div>
+            <div>
+                <div class="box-title">Withdraw</div>
+                <div class="box-sub">My withdraw history</div>
+            </div>
         </div>
     </div>
 
-    <div class="service-center">
-        <div class="service-item"><i class="fa-solid fa-gear"></i> Settings</div>
-        <div class="service-item"><i class="fa-solid fa-comment-dots"></i> Feedback</div>
-        <div class="service-item"><i class="fa-solid fa-bullhorn"></i> News</div>
-        <div class="service-item"><i class="fa-solid fa-headset"></i> Support</div>
-        <div class="service-item"><i class="fa-solid fa-book"></i> Guide</div>
-        <div class="service-item"><i class="fa-solid fa-circle-info"></i> About</div>
+    <div class="menu-list">
+        <div class="menu-item">
+            <span><i class="fa-solid fa-bell" style="color: #4da6ff; margin-right: 10px;"></i> Notification</span>
+            <span style="background: #ff4d4d; border-radius: 50%; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.65rem;">1</span>
+        </div>
+        <div class="menu-item">
+            <span><i class="fa-solid fa-gift" style="color: #ffcc00; margin-right: 10px;"></i> Gifts</span>
+            <i class="fa-solid fa-chevron-right" style="color: var(--text-sub)"></i>
+        </div>
+        <div class="menu-item">
+            <span><i class="fa-solid fa-chart-simple" style="color: #4da6ff; margin-right: 10px;"></i> Game statistics</span>
+            <i class="fa-solid fa-chevron-right" style="color: var(--text-sub)"></i>
+        </div>
     </div>
 
-    <div class="logout-btn"><i class="fa-solid fa-power-off"></i> Log out</div>
+    <div class="service-title">Service center</div>
+    <div class="service-grid">
+        <div class="service-item"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+        <div class="service-item"><i class="fa-solid fa-clipboard-question"></i><span>Feedback</span></div>
+        <div class="service-item"><i class="fa-solid fa-bullhorn"></i><span>Notice</span></div>
+        <div class="service-item"><i class="fa-solid fa-headset"></i><span>Support</span></div>
+        <div class="service-item"><i class="fa-solid fa-book-open"></i><span>Guide</span></div>
+        <div class="service-item"><i class="fa-solid fa-circle-info"></i><span>About us</span></div>
+    </div>
 
-    <div class="footer-nav">
-        <div class="nav-item"><i class="fa-solid fa-house"></i><br>Home</div>
-        <div class="nav-item"><i class="fa-solid fa-trophy"></i><br>Activity</div>
-        <div style="position: relative;">
-            <div class="spin-btn">GO</div>
-            <p style="margin-top: 35px; font-size: 0.6rem; color: var(--gold);">Get ₹500</p>
-        </div>
-        <div class="nav-item"><i class="fa-solid fa-bullhorn"></i><br>Promotion</div>
-        <div class="nav-item active"><i class="fa-solid fa-user"></i><br>Account</div>
+    <div class="logout-container">
+        <button class="logout-btn" onclick="handleLogout()">
+            <i class="fa-solid fa-power-off"></i> Log out
+        </button>
     </div>
 </div>
 
 <script>
-    // Logic for Unique ID and persistent Name
+    // 1. Fixed UID and Name Generation
     window.onload = function() {
         if (!localStorage.getItem('userUID')) {
-            const randomUID = Math.floor(1000000 + Math.random() * 9000000);
-            const randomName = "MEMBER" + Math.random().toString(36).substring(2, 8).toUpperCase();
-            localStorage.setItem('userUID', randomUID);
-            localStorage.setItem('userName', randomName);
+            const newUID = Math.floor(7000000 + Math.random() * 900000);
+            const newName = "MEMBER" + Math.random().toString(36).substring(2, 7).toUpperCase();
+            localStorage.setItem('userUID', newUID);
+            localStorage.setItem('userName', newName);
         }
-        
-        document.getElementById('userUID').innerText = localStorage.getItem('userUID');
-        document.getElementById('userName').innerHTML = localStorage.getItem('userName') + ' <span class="vip-badge">VIP 1</span>';
 
-        // Load saved photo
-        const savedPhoto = localStorage.getItem('profilePhoto');
-        if (savedPhoto) {
-            document.getElementById('profilePic').src = savedPhoto;
+        document.getElementById('uidTag').innerText = localStorage.getItem('userUID');
+        document.getElementById('nameTag').innerHTML = localStorage.getItem('userName') + ' <span class="vip-badge">VIP1</span>';
+
+        // Load Persistent Image
+        const savedImg = localStorage.getItem('profileImg');
+        if (savedImg) {
+            document.getElementById('displayPic').src = savedImg;
         }
-    };
+    }
 
-    // Photo Selection Logic
-    document.getElementById('fileInput').onchange = function(evt) {
-        const [file] = this.files;
+    // 2. Photo Persistence
+    document.getElementById('fileInput').onchange = function(e) {
+        const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64Image = e.target.result;
-                document.getElementById('profilePic').src = base64Image;
-                localStorage.setItem('profilePhoto', base64Image); // Keeps photo permanent
-            };
+            reader.onload = function(event) {
+                const base64 = event.target.result;
+                document.getElementById('displayPic').src = base64;
+                localStorage.setItem('profileImg', base64);
+            }
             reader.readAsDataURL(file);
         }
-    };
+    }
 
-    // Add click sound/animation feedback to cards
-    document.querySelectorAll('.menu-card, .list-item, .service-item').forEach(item => {
-        item.onclick = () => {
-            item.style.backgroundColor = "rgba(77, 119, 255, 0.2)";
-            setTimeout(() => { item.style.backgroundColor = ""; }, 200);
-        };
-    });
+    // 3. Working Logout Button
+    function handleLogout() {
+        if (confirm("Are you sure you want to log out?")) {
+            // Clearing UID for demo - in real app, you just redirect
+            alert("Logging out...");
+            location.reload(); 
+        }
+    }
 </script>
 
 </body>
